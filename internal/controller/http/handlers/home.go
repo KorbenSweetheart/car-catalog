@@ -10,8 +10,8 @@ import (
 // The GET / endpoint returns the main page of the web interface.
 // The GET / endpoint returns HTTP200.
 
-func HandleIndex(log *slog.Logger, tmplts map[string]*template.Template) http.Handler {
-	const op = "handlers.index.handle.Index"
+func HandleHome(log *slog.Logger, tmplts map[string]*template.Template) http.Handler {
+	const op = "handlers.home.handle.Home"
 
 	log = log.With(
 		slog.String("op", op),
@@ -19,22 +19,22 @@ func HandleIndex(log *slog.Logger, tmplts map[string]*template.Template) http.Ha
 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
-		indexTmpl, ok := tmplts["index"]
+		homeTmpl, ok := tmplts["home"]
 		if !ok {
-			log.Error("template not found in map", "name", "index")
+			log.Error("template not found in map", "name", "home")
 			http.Error(w, "Internal Configuration Error", http.StatusInternalServerError)
 			return
 		}
 
 		// Dynamic data to pass to HTML for test
-		data := map[string]string{
-			"input":        "",
-			"HTTPResponse": "200: OK",
-		}
+		// data := map[string]string{
+		// 	"input":        "",
+		// 	"HTTPResponse": "200: OK",
+		// }
 
 		var buf bytes.Buffer
 
-		if err := indexTmpl.Execute(&buf, data); err != nil {
+		if err := homeTmpl.Execute(&buf, nil); err != nil {
 			log.Error("failed to render template", slog.Any("error", err))
 			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 			return

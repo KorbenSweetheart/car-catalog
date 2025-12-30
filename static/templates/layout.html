@@ -1,0 +1,26 @@
+{{define "base"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href=/static/assets/icons/favicon.ico type=image/x-icon>
+    <link rel="stylesheet" href="/static/styles/style.css" />
+
+    <title>Go Cars</title>
+
+    <meta name="Description" content="Description">
+    
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/catalog">Catalog</a>
+        <a href="/compare">My Comparison</a>
+    </nav>
+    <main>
+        {{template "content" .}}
+    </main>
+</body>
+</html>
+{{end}}

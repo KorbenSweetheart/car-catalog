@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"time"
+	"viewer/internal/lib/e"
 )
 
 type Config struct {
@@ -15,6 +16,7 @@ type Config struct {
 
 type HTTPServer struct {
 	Address        string `json:"address"`
+	StaticPath     string `json:"static_path"`
 	Timeout        time.Duration
 	IdleTimeout    time.Duration
 	TimeoutStr     string `json:"timeout"`      // temporary field to parse seconds and convert them later to time.Duration
@@ -46,6 +48,11 @@ func MustLoad() *Config {
 	}
 
 	var err error
+
+	if err := loadStatic(cfg.HTTPServer.StaticPath); err != nil {
+		log.Fatalf("can't load static directory: %v", err)
+	}
+
 	cfg.HTTPServer.Timeout, err = time.ParseDuration(cfg.HTTPServer.TimeoutStr)
 	if err != nil {
 		log.Fatalf("can't parse timeout: %v", err)
@@ -62,4 +69,23 @@ func MustLoad() *Config {
 	}
 
 	return &cfg
+}
+
+func loadStatic(path string) error {
+
+	info, err := os.Stat(path)
+
+	if os.IsNotExist(err) {
+		return e.Wrap("static directory does not exist", err)
+	}
+
+	if !info.IsDir() {
+		return e.Wrap("path is not a directory", err)
+	}
+
+	if err != nil {
+		return e.Wrap("error checking static directory", err)
+	}
+
+	return nil
 }

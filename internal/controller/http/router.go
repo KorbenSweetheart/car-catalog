@@ -29,8 +29,8 @@ func NewRouter(log *slog.Logger, tmplts map[string]*template.Template) http.Hand
 func addRoutes(mux *http.ServeMux, logger *slog.Logger, tmplts map[string]*template.Template) {
 
 	// Page handlers
-	mux.Handle("GET /{$}", handlers.HandleIndex(logger, tmplts)) // handle must return http.Handler
-	mux.Handle("GET /web/", handlers.HandleWebAssets(logger))
+	mux.Handle("GET /{$}", handlers.HandleHome(logger, tmplts)) // handle must return http.Handler
+	mux.Handle("GET /static/", handlers.HandleStatic(logger))
 	mux.Handle("GET /", handlers.HandleNotFound(logger, tmplts))
 
 	// Action handlers
