@@ -29,6 +29,14 @@ type Category struct {
 	Name string `json:"name"`
 }
 
+type CarSummary struct {
+	ID      int
+	Heading string
+	Year    int
+	Gearbox string
+	Image   string
+}
+
 // Example
 // "carModels": [
 //         {

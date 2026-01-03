@@ -1,0 +1,16 @@
+{{define "card"}}
+<article class="car-card">
+    <div class="card-image">
+        <img src="{{.Image}}" alt="{{.Heading}}" loading="lazy">
+    </div>
+    
+    <div class="card-header">
+        <h3>{{.Heading}}</h3>
+        <p class="sub-text">{{.Year}} • {{.Gearbox}}</p>
+    </div>
+
+    <div class="card-actions">
+        <a href="/car?id={{.ID}}" class="button-outline">View Details</a>
+    </div>
+</article>
+{{end}}

@@ -31,7 +31,24 @@ func New(host string, timeout time.Duration) *Client {
 	}
 }
 
-func (c *Client) GetCarModel(ctx context.Context, id int) (domain.Car, error) {
+func (c *Client) FetchCarSummary(ctx context.Context, number int) (domain.CarSummary, error) {
+	path := fmt.Sprintf("%s/%d", endpointModels, number)
+
+	data, err := c.doRequest(ctx, path)
+	if err != nil {
+		return domain.CarSummary{}, e.Wrap("can't fetch car", err)
+	}
+
+	var carSum domain.CarSummary
+
+	if err := json.Unmarshal(data, &carSum); err != nil {
+		return domain.CarSummary{}, e.Wrap("can't decode response for car", err)
+	}
+
+	return carSum, nil
+}
+
+func (c *Client) FetchCar(ctx context.Context, id int) (domain.Car, error) {
 
 	path := fmt.Sprintf("%s/%d", endpointModels, id)
 
@@ -49,7 +66,25 @@ func (c *Client) GetCarModel(ctx context.Context, id int) (domain.Car, error) {
 	return car, nil
 }
 
-func (c *Client) GetManufacturer(ctx context.Context, id int) (domain.Manufacturer, error) {
+func (c *Client) FetchCars(ctx context.Context, id int) (domain.Car, error) {
+
+	path := fmt.Sprintf("%s/%d", endpointModels, id)
+
+	data, err := c.doRequest(ctx, path)
+	if err != nil {
+		return domain.Car{}, e.Wrap("can't fetch car", err)
+	}
+
+	var car domain.Car
+
+	if err := json.Unmarshal(data, &car); err != nil {
+		return domain.Car{}, e.Wrap("can't decode response for car", err)
+	}
+
+	return car, nil
+}
+
+func (c *Client) FetchManufacturer(ctx context.Context, id int) (domain.Manufacturer, error) {
 
 	path := fmt.Sprintf("%s/%d", endpointManufacturers, id)
 

@@ -2,23 +2,23 @@ package usecase
 
 import (
 	"context"
-	"viewer/internal/clients/carapi"
 	"viewer/internal/domain"
 )
 
-// 3. The UseCase Interface
-// The Handler uses this to talk to the UseCase.
-type Repository interface {
-	GetCarModel(ctx context.Context, id int) (domain.Car, error)
-	GetManufacturer(ctx context.Context, id int) (domain.Manufacturer, error)
+type Adapter interface {
+	FetchCarSummary(ctx context.Context, number int) (domain.CarSummary, error)
+	FetchCar(ctx context.Context, id int) (domain.Car, error)
+	FetchCars(ctx context.Context, id int) ([]domain.Car, error)
+	FetchManufacturer(ctx context.Context, id int) (domain.Manufacturer, error)
+	FetchManufacturers(ctx context.Context, id int) ([]domain.Manufacturer, error)
 }
 
-type CarModel struct {
-	repo Repository
+type UseCase struct {
+	adapter Adapter
 }
 
-func NewCarModel(c *carapi.Client) *CarModel {
-	return &CarModel{
-		repo: c,
+func NewUseCase(a Adapter) *UseCase {
+	return &UseCase{
+		adapter: a,
 	}
 }

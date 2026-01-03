@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"viewer/internal/controller/http/handlers"
 	"viewer/internal/controller/http/middleware"
+	"viewer/internal/domain"
 )
 
 func NewRouter(log *slog.Logger, tmplts map[string]*template.Template) http.Handler {
@@ -32,6 +33,7 @@ func addRoutes(mux *http.ServeMux, logger *slog.Logger, tmplts map[string]*templ
 	mux.Handle("GET /{$}", handlers.HandleHome(logger, tmplts)) // handle must return http.Handler
 	mux.Handle("GET /static/", handlers.HandleStatic(logger))
 	mux.Handle("GET /", handlers.HandleNotFound(logger, tmplts))
+	mux.HandleFunc("GET /", handlers.NewCarModel(logger, CarProvider CarProvider))
 
 	// Action handlers
 	// mux.Handle("POST /decoder", handlers.HandleDecoder(logger, proc, tmplts))
