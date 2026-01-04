@@ -12,6 +12,18 @@ import (
 	"viewer/internal/lib/e"
 )
 
+/*
+The api exposes the following endpoints:
+```
+GET /api/models
+GET /api/models/{id}
+GET /api/manufacturers
+GET /api/manufacturers/{id}
+GET /api/categories
+GET /api/categories/{id}
+```
+*/
+
 const (
 	endpointModels        = "models"
 	endpointManufacturers = "manufacturers"

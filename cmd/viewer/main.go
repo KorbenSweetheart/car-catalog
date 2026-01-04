@@ -2,10 +2,10 @@ package main
 
 import (
 	"log/slog"
-	"os"
 	"viewer/internal/clients/carapi"
 	"viewer/internal/config"
 	"viewer/internal/usecase"
+	"viewer/pkg/logger"
 )
 
 const (
@@ -19,7 +19,8 @@ func main() {
 	cfg := config.MustLoad()
 
 	// init logger: slog
-	log := setupLogger(cfg.Env)
+	// maybe move to appRun()
+	log := logger.New(cfg.Env)
 
 	log.Info("starting car viewer", slog.String("env", cfg.Env))
 	log.Debug("debug messages are enabled")
@@ -43,20 +44,4 @@ func main() {
 
 	// run server
 
-}
-
-// maybe move to pkg so we can reuse it.
-func setupLogger(env string) *slog.Logger {
-	var log *slog.Logger
-
-	switch env {
-	case envLocal:
-		log = slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelDebug}))
-	case envDev:
-		log = slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelDebug}))
-	case envProd:
-		log = slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelInfo}))
-	}
-
-	return log
 }
