@@ -1,56 +1,52 @@
 package domain
 
+const (
+	TransmissionManual    = "Manual"
+	TransmissionAutomatic = "Automatic"
+)
+
 type Car struct {
-	ID             int    `json:"id"`
-	Name           string `json:"name"`
-	ManufacturerId int    `json:"manufacturerId"`
-	CategoryId     int    `json:"categoryId"`
-	Year           int    `json:"year"`
-	Specs          Specs  `json:"specifications"`
-	Image          string `json:"image"`
+	ID           int
+	Name         string
+	Year         int
+	Image        string
+	Specs        Specs
+	Manufacturer Manufacturer
+	Category     Category
 }
 
 type Specs struct {
-	Engine     string `json:"engine"`
-	HP         int    `json:"horsepower"`
-	Gearbox    string `json:"transmission"`
-	Drivetrain string `json:"drivetrain"`
+	Engine       string
+	HP           int
+	Gearbox      string
+	Transmission string
+	Drivetrain   string
 }
 
 type Manufacturer struct {
-	ID           int    `json:"id"`
-	Name         string `json:"name"`
-	Country      string `json:"country"`
-	FoundingYear int    `json:"foundingYear"`
+	ID           int
+	Name         string
+	Country      string
+	FoundingYear int
 }
 
 type Category struct {
-	ID   int    `json:"id"`
-	Name string `json:"name"`
+	ID   int
+	Name string
 }
 
-type CarSummary struct {
-	ID      int
-	Heading string
-	Year    int
-	Gearbox string
-	Image   string
+type FilterOptions struct {
+	ManufacturerID int
+	CategoryID     int
+	MinYear        int
+	MinHP          int
+	Transmission   string
+	Drivetrain     string
 }
 
-// Example
-// "carModels": [
-//         {
-//         "id": 1,
-//         "name": "Toyota Corolla",
-//         "manufacturerId": 1,
-//         "categoryId": 2,
-//         "year": 2023,
-//         "specifications": {
-//             "engine": "1.8L Inline-4",
-//             "horsepower": 139,
-//             "transmission": "CVT",
-//             "drivetrain": "Front-Wheel Drive"
-//         },
-//         "image": "toyota_corolla.jpg"
-//         }
-//     ]
+type Metadata struct {
+	Manufacturers []Manufacturer
+	Categories    []Category
+	Drivetrains   []string // e.g. "All-Wheel Drive", "Rear-Wheel Drive"
+	Transmissions []string // e.g. "Automatic", "Manual"
+}

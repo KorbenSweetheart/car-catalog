@@ -15,3 +15,18 @@ io.Copy(conn, f) // uses sendfile() → kernel-to-kernel copy
 
 > Data goes directly from file descriptor to socket descriptor — your Go code never touches the bytes.
 > This is a true zero-copy path.
+
+
+✅ “The event system runs as asynchronous (usage of goroutines and channels)”
+
+This is where your approach actually shines.
+
+You can cleanly implement:
+- Background goroutine:
+    - Periodically refresh Cars API data
+- Channels:
+    - Swap cached datasets safely
+    - Signal refresh completion
+    - Handle API failures gracefully
+
+This strongly satisfies the requirement.

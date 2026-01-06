@@ -7,7 +7,7 @@ import (
 )
 
 type CarFetcher interface { // CarSummaryFetcher
-	FetchCarSummary(ctx context.Context, number int) ([]domain.CarSummary, error)
+	FetchCarSummaries(ctx context.Context, limit int) ([]domain.CarSummary, error)
 }
 
 type Usecase struct {
@@ -23,14 +23,14 @@ func New(fetcher CarFetcher) *Usecase {
 }
 
 // 4. The Business Logic
-func (u *Usecase) GetFeaturedCars(ctx context.Context, id int) (domain.Car, error) {
+func (u *Usecase) GetFeaturedCars(ctx context.Context, limit int) ([]domain.CarSummary, error) {
 
 	// Logic: Get 4 cars, maybe filter them, maybe handle errors specifically
 
-	carModel, err := u.fetcher.FetchCarSummary(ctx, id)
+	CarSummaries, err := u.fetcher.FetchCarSummaries(ctx, limit)
 	if err != nil {
-		return domain.Car{}, fmt.Errorf("get profile from postgres: %w", err)
+		return []domain.CarSummary{}, fmt.Errorf("can't fetch car summaries: %w", err)
 	}
 
-	return carModel, nil
+	return CarSummaries, nil
 }
