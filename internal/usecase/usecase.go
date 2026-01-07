@@ -5,20 +5,20 @@ import (
 	"viewer/internal/domain"
 )
 
-type Adapter interface {
-	FetchCarSummary(ctx context.Context, number int) (domain.CarSummary, error)
-	FetchCar(ctx context.Context, id int) (domain.Car, error)
-	FetchCars(ctx context.Context, id int) ([]domain.Car, error)
-	FetchManufacturer(ctx context.Context, id int) (domain.Manufacturer, error)
-	FetchManufacturers(ctx context.Context, id int) ([]domain.Manufacturer, error)
+type Reporistory interface {
+	GetByID(ctx context.Context, id int) (domain.Car, error)
+	GetMetadata(ctx context.Context) (domain.Metadata, error)
+	// GetRandom(ctx context.Context, limit int) ([]domain.Car, error)
+	Refresh(ctx context.Context) error
+	Search(ctx context.Context, f domain.FilterOptions) ([]domain.Car, error)
 }
 
 type UseCase struct {
-	adapter Adapter
+	repo Reporistory
 }
 
-func NewUseCase(a Adapter) *UseCase {
+func NewUseCase(r Reporistory) *UseCase {
 	return &UseCase{
-		adapter: a,
+		repo: r,
 	}
 }

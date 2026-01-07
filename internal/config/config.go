@@ -12,6 +12,7 @@ type Config struct {
 	Env        string     `json:"env"`
 	HTTPServer HTTPServer `json:"http_server"`
 	Client     Client     `json:"client"`
+	Repo       Repository `json:"repository"`
 }
 
 type HTTPServer struct {
@@ -27,6 +28,11 @@ type Client struct {
 	Host       string `json:"host"`
 	Timeout    time.Duration
 	TimeoutStr string `json:"cleint_timeout"`
+}
+
+type Repository struct {
+	RefreshInterval    time.Duration
+	RefreshIntervalStr string `json:"refresh_interval"`
 }
 
 func MustLoad() *Config {
@@ -64,6 +70,11 @@ func MustLoad() *Config {
 	}
 
 	cfg.Client.Timeout, err = time.ParseDuration(cfg.Client.TimeoutStr)
+	if err != nil {
+		log.Fatalf("can't parse client timeout: %v", err)
+	}
+
+	cfg.Repo.RefreshInterval, err = time.ParseDuration(cfg.Repo.RefreshIntervalStr)
 	if err != nil {
 		log.Fatalf("can't parse client timeout: %v", err)
 	}

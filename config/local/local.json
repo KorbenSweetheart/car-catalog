@@ -9,5 +9,8 @@
   "client": {
     "host": "http://localhost:3000/api",
     "cleint_timeout": "10s"
+  },
+    "repository":{
+      "refresh_interval": "10m"
   }
 }

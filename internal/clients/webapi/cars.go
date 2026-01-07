@@ -7,7 +7,7 @@ import (
 	"viewer/internal/lib/e"
 )
 
-func (c *Client) FetchCars(ctx context.Context, limit int) ([]domain.Car, error) {
+func (c *Client) FetchCars(ctx context.Context) ([]domain.Car, error) {
 
 	data, err := c.doRequest(ctx, endpointModels)
 	if err != nil {
