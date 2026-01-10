@@ -28,16 +28,16 @@ func New(log *slog.Logger, r CarRepository) *Usecase {
 }
 
 // The Business Logic
-func (u *Usecase) LoadHome(ctx context.Context) ([]domain.Car, error) {
-	const op = "usecase.home.LoadHome"
+func (u *Usecase) Load(ctx context.Context) ([]domain.Car, error) {
+	const op = "usecase.home.Load"
 
-	log := u.log.With("op", "usecase.home.LoadHome")
+	log := u.log.With("op", op)
 
 	// Logic: Get 4 cars, maybe filter them, maybe handle errors specifically
 	cars, err := u.repo.GetRandom(ctx, limit)
 	if err != nil {
 		log.Error("failed to get random cars", slog.Any("error", err))
-		return []domain.Car{}, e.Wrap("failed to get random cars: %w", err)
+		return nil, e.Wrap("failed to get random cars: %w", err)
 	}
 
 	log.Info("home page loaded",

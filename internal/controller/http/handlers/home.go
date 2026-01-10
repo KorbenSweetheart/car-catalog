@@ -2,15 +2,21 @@ package handlers
 
 import (
 	"bytes"
+	"context"
 	"html/template"
 	"log/slog"
 	"net/http"
+	"viewer/internal/domain"
 )
 
 // The GET / endpoint returns the main page of the web interface.
 // The GET / endpoint returns HTTP200.
 
-func HandleHome(log *slog.Logger, tmplts map[string]*template.Template) http.Handler {
+type HomeUsecase interface {
+	Load(ctx context.Context) ([]domain.Car, error)
+}
+
+func NewHomeHandler(log *slog.Logger, us HomeUsecase, tmplts map[string]*template.Template) http.Handler {
 	const op = "handlers.home.handle.Home"
 
 	log = log.With(
