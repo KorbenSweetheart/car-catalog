@@ -47,8 +47,7 @@ func New(log *slog.Logger, fetcher DataFetcher) *Repository {
 // Access Methods (The "Read" Side)
 // -------------------------------------------------------------------------
 
-func (r *Repository) GetByID(ctx context.Context, id int) (domain.Car, error) {
-
+func (r *Repository) Car(ctx context.Context, id int) (domain.Car, error) {
 	r.mu.RLock()
 	defer r.mu.RUnlock()
 
@@ -60,7 +59,24 @@ func (r *Repository) GetByID(ctx context.Context, id int) (domain.Car, error) {
 	return *car, nil
 }
 
-func (r *Repository) GetRandom(ctx context.Context, limit int) ([]domain.Car, error) {
+func (r *Repository) Cars(ctx context.Context) ([]domain.Car, error) {
+	r.mu.RLock()
+	defer r.mu.RUnlock()
+
+	count := len(r.carsSlice)
+	if count == 0 {
+		return []domain.Car{}, nil
+	}
+
+	result := make([]domain.Car, 0, count)
+	for _, c := range r.carsSlice {
+		result = append(result, *c) // Return a copy (value) so the caller can't mutate our memory
+	}
+
+	return result, nil
+}
+
+func (r *Repository) RandomCars(ctx context.Context, limit int) ([]domain.Car, error) {
 	r.mu.RLock()
 	defer r.mu.RUnlock()
 
@@ -93,7 +109,7 @@ func (r *Repository) GetRandom(ctx context.Context, limit int) ([]domain.Car, er
 }
 
 // GetMetadata returns the lists needed for filters
-func (r *Repository) GetMetadata(ctx context.Context) (domain.Metadata, error) {
+func (r *Repository) Metadata(ctx context.Context) (domain.Metadata, error) {
 	r.mu.RLock()
 	defer r.mu.RUnlock()
 
