@@ -7,6 +7,8 @@ import (
 	"viewer/internal/lib/e"
 )
 
+// The Business Logic -> provide car/cars
+
 const limit = 4
 
 type CarProvider interface {
@@ -20,16 +22,12 @@ type CarStore struct {
 	repo CarProvider
 }
 
-// 3. The Constructor
-// When called from app, it looks like: home.New(log, repo)
 func New(log *slog.Logger, r CarProvider) *CarStore {
 	return &CarStore{
 		log:  log,
 		repo: r,
 	}
 }
-
-// The Business Logic
 
 func (s *CarStore) Car(ctx context.Context, ID int) (domain.Car, error) {
 	const op = "usecase.carstore.Car"

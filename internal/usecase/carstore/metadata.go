@@ -7,11 +7,13 @@ import (
 	"viewer/internal/lib/e"
 )
 
+// The Business Logic -> provide metadata to form catalog filters
+
 type MetadataProvider interface {
 	Metadata(ctx context.Context) (domain.Metadata, error)
 }
 
-type Filters struct {
+type Metadata struct {
 	log      *slog.Logger
 	metadata MetadataProvider
 }
@@ -25,7 +27,7 @@ Year min (user input)
 Power (hp) (user input)
 */
 
-func (f *Filters) Filters(ctx context.Context) (domain.Metadata, error) {
+func (f *Metadata) Filters(ctx context.Context) (domain.Metadata, error) {
 	const op = "usecase.carstore.Filters"
 
 	log := f.log.With("op", op)
