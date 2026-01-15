@@ -5,6 +5,7 @@ import (
 	"viewer/internal/domain"
 )
 
+// TODO: shouldn't be here, its business logic.
 // Search handles filtering for the catalog
 func (r *Repository) Search(ctx context.Context, f domain.FilterOptions) ([]domain.Car, error) {
 	r.mu.RLock()

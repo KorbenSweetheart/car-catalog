@@ -15,6 +15,7 @@ type CarProvider interface {
 	Car(ctx context.Context, ID int) (domain.Car, error)
 	Cars(ctx context.Context) ([]domain.Car, error)
 	RandomCars(ctx context.Context, limit int) ([]domain.Car, error)
+	Metadata(ctx context.Context) (domain.Metadata, error)
 }
 
 type CarStore struct {
@@ -82,4 +83,27 @@ func (s *CarStore) RandomCars(ctx context.Context) ([]domain.Car, error) {
 	)
 
 	return cars, nil
+}
+
+/* Catalog filters
+Manufacturer
+Category
+Drive Train
+Transmission
+Year min (user input)
+Power (hp) (user input)
+*/
+
+func (s *CarStore) Filters(ctx context.Context) (domain.Metadata, error) {
+	const op = "usecase.carstore.Filters"
+
+	log := s.log.With("op", op)
+
+	filters, err := s.repo.Metadata(ctx)
+	if err != nil {
+		log.Error("failed to get metadata", slog.Any("error", err))
+		return domain.Metadata{}, e.Wrap("failed to get metadata: %w", err)
+	}
+
+	return filters, nil
 }
