@@ -10,7 +10,8 @@ func main() {
 	// init config: json
 	cfg := config.MustLoad()
 
-	if err := app.Run(cfg); err != nil {
+	app := app.New(cfg)
+	if err := app.Run(); err != nil {
 		os.Exit(1)
 	}
 }

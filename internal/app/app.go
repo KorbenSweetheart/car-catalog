@@ -6,105 +6,105 @@ import (
 	"time"
 	"viewer/internal/clients/webapi"
 	"viewer/internal/config"
+	httpserver "viewer/internal/controller/http"
 	"viewer/internal/lib/e"
 	"viewer/internal/repository/memory"
+	"viewer/internal/usecase/carstore"
 	"viewer/pkg/logger"
 )
 
 // This struct holds your entire running application
 type App struct {
-	logger slog.Logger
-	client webapi.Client
-	repo   memory.Repository
-
-	// Usecases
-	// HomeUsecase    *home.Usecase
-	// CatalogUsecase *catalog.Usecase
-	// Add others here...
+	cfg *config.Config
+	log *slog.Logger
 }
 
-// New initializes everything in one place
-// func New(apiHost string) *App {
-// 1. Init the shared adapter once
-// client := carapi.New(apiHost)
+func New(cfg *config.Config) *App {
+	return &App{
+		cfg: cfg,
+		log: logger.New(cfg.Env),
+	}
+}
 
-// 2. Init all use cases, injecting the client
-// return &App{
-// 	HomeUsecase:    home.New(client),
-// 	CatalogUsecase: catalog.New(client),
-// }
-// }
-
-func Run(cfg *config.Config) error { // maybe make is a method for App struct ???
+func (app *App) Run() error {
 
 	appCtx, cancelApp := context.WithCancel(context.Background())
 	defer cancelApp()
 
 	// Logger: slog
-	log := logger.New(cfg.Env)
-
-	log.Info("starting car viewer", slog.String("env", cfg.Env))
-	log.Debug("debug messages are enabled")
+	app.log.Info("starting car viewer", slog.String("env", app.cfg.Env))
+	app.log.Debug("debug messages are enabled")
 
 	// Client
 	client := webapi.New(
-		cfg.Client.Host,
-		cfg.Client.Timeout,
+		app.cfg.Client.Host,
+		app.cfg.Client.Timeout,
 	)
 
-	// Repository
-	repo := memory.New(log, client)
+	// Repository - Storage layer
+	repo := memory.New(app.log, client)
 
 	// Initial load (Startup phase)
 	// TODO: think about backoff and failcount
-	log.Info("performing initial data load...")
+	app.log.Info("performing initial data load...")
 
 	startupCtx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 	defer cancel()
 
 	if err := repo.Refresh(startupCtx); err != nil {
-		log.Error("initial data load failed", slog.Any("error", err))
+		app.log.Error("initial data load failed", slog.Any("error", err))
 		return e.Wrap("initial data load failed", err)
 	}
 
-	log.Info("initial data load complete")
+	app.log.Info("initial data load complete")
 
-	// Start the Refresh Ticker
-	go func() {
-		ticker := time.NewTicker(cfg.Repo.RefreshInterval)
-		defer ticker.Stop()
+	// Start the Refresh Ticker and background memory refresh each 10 min
+	go app.startBackgroundRefresh(appCtx, repo)
 
-		for {
-			select {
-			case <-appCtx.Done(): // Stop signal: If Run() finishes, this case triggers
-				return
-			case <-ticker.C: // Ticker signal: Normal work
-				log.Info("start refreshing data cache...")
-
-				refreshCtx, cancel := context.WithTimeout(context.Background(), cfg.Client.Timeout*3)
-
-				if err := repo.Refresh(refreshCtx); err != nil {
-					log.Error("background refresh failed", slog.Any("error", err))
-				} else {
-					log.Info("data refreshed successfully")
-				}
-				cancel()
-			}
-		}
-	}()
-
-	// Usecase (Service)
-	carUsecase := usecase.NewCarModel(client)
+	// Usecase (CarStore) - business logic layer
+	carStore := carstore.New(app.log, repo)
 
 	// parse templates
+	templates, err := httpserver.ParseTemplates(app.cfg.HTTPServer.TemplatesPath, app.log)
+	if err != nil {
+		app.log.Error("Failed to parse templates", slog.Any("error", err))
+		return e.Wrap("failed to parse templates", err)
+	}
 
-	// construct new router
+	// construct new router -> Transport layer
+	router := httpserver.NewRouter(app.log, templates, carStore)
 
 	// construct new server
+	httpServer := httpserver.NewHTTPServer(router, app.cfg)
 
 	// run server
-
-	// graceful shutdown
+	if err := httpserver.RunServer(appCtx, app.log, app.cfg, httpServer, 5*time.Second); err != nil {
+		app.log.Error("failed to start server", slog.Any("error", err))
+		return err
+	}
 
 	return nil
+}
+
+func (app *App) startBackgroundRefresh(ctx context.Context, repo *memory.Repository) {
+	ticker := time.NewTicker(app.cfg.Repo.RefreshInterval)
+	defer ticker.Stop()
+
+	for {
+		select {
+		case <-ctx.Done(): // Stop signal: If Run() finishes, this case triggers
+			return
+		case <-ticker.C: // Ticker signal: Normal work
+			app.log.Info("start refreshing data cache...")
+
+			refreshCtx, cancel := context.WithTimeout(context.Background(), app.cfg.Client.Timeout*3)
+
+			if err := repo.Refresh(refreshCtx); err != nil {
+				app.log.Error("background refresh failed", slog.Any("error", err))
+			} else {
+				app.log.Info("data refreshed successfully")
+			}
+			cancel()
+		}
+	}
 }

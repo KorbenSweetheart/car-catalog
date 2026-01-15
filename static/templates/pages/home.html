@@ -1,0 +1,59 @@
+{{template "base" .}}
+
+{{define "content"}}
+<section class="hero">
+    <div class="hero-video-wrapper">
+        <video autoplay muted loop playsinline class="hero-video">
+            <source src="https://videos.pexels.com/video-files/2882790/2882790-hd_1920_1080_24fps.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="hero-overlay"></div>
+    </div>
+
+    <div class="container hero-content">
+        <h1>Find the car that<br>fits your life.</h1>
+        <p>Over 3,000 quality inspected vehicles available today.</p>
+        
+        <form action="/catalog" method="GET" class="search-form">
+            <input type="text" name="q" placeholder="Type a car model (e.g. BMW X5)..." class="search-input">
+            <button type="submit" class="search-btn">Search Cars</button>
+        </form>
+    </div>
+</section>
+
+<section class="trust-section">
+    <div class="container trust-grid">
+        <div class="trust-item">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin: 0 auto;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <h3>Inspected Quality</h3>
+            <p>Every car checked by pros.</p>
+        </div>
+        <div class="trust-item">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin: 0 auto;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+            <h3>14-Day Return</h3>
+            <p>Love it or bring it back.</p>
+        </div>
+        <div class="trust-item">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="margin: 0 auto;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+            <h3>Home Delivery</h3>
+            <p>Direct to your driveway.</p>
+        </div>
+    </div>
+</section>
+
+<section class="container grid-section">
+    <div class="section-header">
+        <div>
+            <h2>Featured Arrivals</h2>
+            <p style="color: var(--gray); margin-top: 8px;">Freshly added cars you might like.</p>
+        </div>
+        <a href="/catalog" class="card-link" style="font-size: 1rem;">View All Inventory &rarr;</a>
+    </div>
+
+    <div class="grid">
+        {{range .Cars}}
+            {{template "card" .}}
+        {{end}}
+    </div>
+</section>
+{{end}}

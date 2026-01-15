@@ -48,7 +48,7 @@ func (s *CarStore) Car(ctx context.Context, ID int) (domain.Car, error) {
 	return car, nil
 }
 
-func (s *CarStore) Cars(ctx context.Context, ID int) ([]domain.Car, error) {
+func (s *CarStore) Cars(ctx context.Context) ([]domain.Car, error) {
 	const op = "usecase.carstore.Cars"
 
 	log := s.log.With("op", op)

@@ -18,6 +18,7 @@ type Config struct {
 type HTTPServer struct {
 	Address        string `json:"address"`
 	StaticPath     string `json:"static_path"`
+	TemplatesPath  string `json:"templates_path"`
 	Timeout        time.Duration
 	IdleTimeout    time.Duration
 	TimeoutStr     string `json:"timeout"`      // temporary field to parse seconds and convert them later to time.Duration

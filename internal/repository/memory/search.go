@@ -5,7 +5,8 @@ import (
 	"viewer/internal/domain"
 )
 
-// TODO: shouldn't be here, its business logic.
+// TODO: maybe it shouldn't be here, its business logic
+// so maybe move to search usecase, and handle it in a way that we request all cars, and then based on the filterOptions, filter cars, and return []cars?
 // Search handles filtering for the catalog
 func (r *Repository) Search(ctx context.Context, f domain.FilterOptions) ([]domain.Car, error) {
 	r.mu.RLock()

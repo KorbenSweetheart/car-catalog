@@ -3,6 +3,7 @@
   "http_server": {
     "address": "localhost:8080",
     "static_path": "static",
+    "templates_path": "static/templates",
     "timeout": "4s",
     "idle_timeout": "60s"
   },
