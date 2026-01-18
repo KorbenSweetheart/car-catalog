@@ -3,21 +3,29 @@ package webapi
 import (
 	"context"
 	"encoding/json"
+	"log/slog"
 	"viewer/internal/domain"
 	"viewer/internal/lib/e"
 )
 
-func (c *Client) FetchManufacturers(ctx context.Context) ([]domain.Manufacturer, error) {
+func (w *WebRepository) Manufacturers(ctx context.Context) ([]domain.Manufacturer, error) {
+	const op = "repository.webapi.Manufacturers"
 
-	data, err := c.doRequest(ctx, endpointManufacturers)
+	log := w.log.With(
+		slog.String("op", op),
+	)
+
+	data, err := w.client.DoRequest(ctx, endpointManufacturers)
 	if err != nil {
+		log.Error("failed to fetch manufacturers", slog.Any("error", err))
 		return []domain.Manufacturer{}, e.Wrap("failed to fetch manufacturers", err)
 	}
 
 	var dtos []manufacturerDTO
 
 	if err := json.Unmarshal(data, &dtos); err != nil {
-		return []domain.Manufacturer{}, e.Wrap("failed to decode API response for manufacturer", err)
+		log.Error("failed to decode API response for manufacturers", slog.Any("error", err))
+		return []domain.Manufacturer{}, e.Wrap("failed to decode API response for manufacturers", err)
 	}
 
 	vendors := make([]domain.Manufacturer, 0, len(dtos))

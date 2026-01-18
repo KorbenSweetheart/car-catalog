@@ -3,20 +3,28 @@ package webapi
 import (
 	"context"
 	"encoding/json"
+	"log/slog"
 	"viewer/internal/domain"
 	"viewer/internal/lib/e"
 )
 
-func (c *Client) FetchCategories(ctx context.Context) ([]domain.Category, error) {
+func (w *WebRepository) Categories(ctx context.Context) ([]domain.Category, error) {
+	const op = "repository.webapi.Categories"
 
-	data, err := c.doRequest(ctx, endpointCategories)
+	log := w.log.With(
+		slog.String("op", op),
+	)
+
+	data, err := w.client.DoRequest(ctx, endpointCategories)
 	if err != nil {
+		log.Error("failed to fetch categories", slog.Any("error", err))
 		return []domain.Category{}, e.Wrap("failed to fetch categories", err)
 	}
 
 	var dtos []categoryDTO
 
 	if err := json.Unmarshal(data, &dtos); err != nil {
+		log.Error("failed to decode API response for categories", slog.Any("error", err))
 		return []domain.Category{}, e.Wrap("failed to decode API response for categories", err)
 	}
 

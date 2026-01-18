@@ -14,6 +14,10 @@ const limit = 4
 type CarProvider interface {
 	Car(ctx context.Context, ID int) (domain.Car, error)
 	Cars(ctx context.Context) ([]domain.Car, error)
+	Manufacturer(ctx context.Context, ID int) (domain.Manufacturer, error)
+	Manufacturers(ctx context.Context) ([]domain.Manufacturer, error)
+	Category(ctx context.Context, ID int) (domain.Category, error)
+	Categories(ctx context.Context) ([]domain.Category, error)
 	RandomCars(ctx context.Context, limit int) ([]domain.Car, error)
 	Metadata(ctx context.Context) (domain.Metadata, error)
 }

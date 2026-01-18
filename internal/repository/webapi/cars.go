@@ -3,20 +3,31 @@ package webapi
 import (
 	"context"
 	"encoding/json"
+	"log/slog"
 	"viewer/internal/domain"
 	"viewer/internal/lib/e"
 )
 
-func (c *Client) FetchCars(ctx context.Context) ([]domain.Car, error) {
+func (w *WebRepository) Cars(ctx context.Context) ([]domain.Car, error) {
+	const op = "repository.webapi.Cars"
 
-	data, err := c.doRequest(ctx, endpointModels)
+	log := w.log.With(
+		slog.String("op", op),
+	)
+
+	data, err := w.client.DoRequest(ctx, endpointModels)
 	if err != nil {
+		log.Error("failed to fetch cars",
+			slog.String("endpoint:", endpointModels),
+			slog.Any("error", err),
+		)
 		return []domain.Car{}, e.Wrap("failed to fetch cars", err)
 	}
 
 	var dtos []carDTO
 
 	if err := json.Unmarshal(data, &dtos); err != nil {
+		log.Error("failed to decode API response for cars", slog.Any("error", err))
 		return []domain.Car{}, e.Wrap("failed to decode API response for cars", err)
 	}
 
@@ -29,7 +40,7 @@ func (c *Client) FetchCars(ctx context.Context) ([]domain.Car, error) {
 			ID:    d.ID,
 			Name:  d.Name,
 			Year:  d.Year,
-			Image: d.Image,
+			Image: w.imageURL(d.Image),
 
 			// Map the Nested Specs Struct
 			Specs: domain.Specs{
@@ -39,8 +50,7 @@ func (c *Client) FetchCars(ctx context.Context) ([]domain.Car, error) {
 				Drivetrain: d.Specs.Drivetrain,
 			},
 
-			// PARTIAL FILL: We only know the ID right now.
-			// The Repository will use this ID to look up the Name/Country later.
+			// PARTIAL FILL: We only know and need the ID right now.
 			Manufacturer: domain.Manufacturer{
 				ID: d.ManufacturerId,
 			},

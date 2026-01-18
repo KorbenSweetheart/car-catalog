@@ -12,6 +12,7 @@
     "cleint_timeout": "10s"
   },
     "repository":{
+      "media_host": "http://localhost:3000/api/images",
       "refresh_interval": "10m"
   }
 }

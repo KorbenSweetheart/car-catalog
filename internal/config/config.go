@@ -32,6 +32,7 @@ type Client struct {
 }
 
 type Repository struct {
+	MediaHost          string `json:"media_host"`
 	RefreshInterval    time.Duration
 	RefreshIntervalStr string `json:"refresh_interval"`
 }

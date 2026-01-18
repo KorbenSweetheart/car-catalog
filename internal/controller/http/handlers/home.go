@@ -29,6 +29,7 @@ func NewHomeHandler(log *slog.Logger, uc HomeUsecase, tmplts map[string]*templat
 
 func (h *HomeHandler) Index(w http.ResponseWriter, r *http.Request) {
 	const op = "handlers.home.Index"
+
 	// We use the request context to support cancellation/timeouts
 	ctx := r.Context()
 

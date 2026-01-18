@@ -4,12 +4,13 @@ import (
 	"context"
 	"log/slog"
 	"time"
-	"viewer/internal/clients/webapi"
 	"viewer/internal/config"
 	httpserver "viewer/internal/controller/http"
 	"viewer/internal/lib/e"
 	"viewer/internal/repository/memory"
+	"viewer/internal/repository/webapi"
 	"viewer/internal/usecase/carstore"
+	"viewer/pkg/httpclient"
 	"viewer/pkg/logger"
 )
 
@@ -36,13 +37,17 @@ func (app *App) Run() error {
 	app.log.Debug("debug messages are enabled")
 
 	// Client
-	client := webapi.New(
+	client := httpclient.New(
 		app.cfg.Client.Host,
 		app.cfg.Client.Timeout,
 	)
 
-	// Repository - Storage layer
-	repo := memory.New(app.log, client)
+	// Repository - Storage layer (WebAPI storage)
+	repo := webapi.New(
+		app.log,
+		client,
+		app.cfg.Repo.MediaHost,
+	)
 
 	// Initial load (Startup phase)
 	// TODO: think about backoff and failcount

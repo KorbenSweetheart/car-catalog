@@ -1,4 +1,4 @@
-package webapi
+package httpclient
 
 import (
 	"context"
@@ -8,26 +8,6 @@ import (
 	"net/url"
 	"time"
 	"viewer/internal/lib/e"
-)
-
-/*
-The api exposes the following endpoints:
-```
-GET /api/models
-GET /api/models/{id}
-GET /api/manufacturers
-GET /api/manufacturers/{id}
-GET /api/categories
-GET /api/categories/{id}
-```
-*/
-
-// The `image` property relates to an image for a `carModel`, and can be found in the `/api/images` directory.
-
-const (
-	endpointModels        = "models"
-	endpointManufacturers = "manufacturers"
-	endpointCategories    = "categories"
 )
 
 type Client struct {
@@ -43,7 +23,8 @@ func New(host string, timeout time.Duration) *Client {
 	}
 }
 
-func (c *Client) doRequest(ctx context.Context, path string) (data []byte, err error) {
+func (c *Client) DoRequest(ctx context.Context, path string) (data []byte, err error) {
+	const op = "httpclient.DoRequest"
 
 	URL, err := url.JoinPath(c.host, path)
 	if err != nil {
