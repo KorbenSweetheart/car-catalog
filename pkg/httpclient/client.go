@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"net/url"
 	"time"
-	"viewer/internal/lib/e"
 )
 
 type Client struct {
@@ -28,27 +27,27 @@ func (c *Client) DoRequest(ctx context.Context, path string) (data []byte, err e
 
 	URL, err := url.JoinPath(c.host, path)
 	if err != nil {
-		return nil, e.Wrap("invalid url", err)
+		return nil, fmt.Errorf("invalid url", err)
 	}
 
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, URL, nil)
 	if err != nil {
-		return nil, e.Wrap("can't create request", err)
+		return nil, fmt.Errorf("can't create request", err)
 	}
 
 	resp, err := c.client.Do(req)
 	if err != nil {
-		return nil, e.Wrap("can't do request", err)
+		return nil, fmt.Errorf("can't do request", err)
 	}
 	defer func() { _ = resp.Body.Close() }()
 
 	if resp.StatusCode != http.StatusOK {
-		return nil, e.Wrap("unexpected error", fmt.Errorf("unexpected status code: %d", resp.StatusCode))
+		return nil, fmt.Errorf("unexpected status code: %d", resp.StatusCode)
 	}
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return nil, e.Wrap("can't read body", err)
+		return nil, fmt.Errorf("can't read body", err)
 	}
 
 	return body, nil

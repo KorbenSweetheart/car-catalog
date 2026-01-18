@@ -2,7 +2,8 @@ package memory
 
 import (
 	"context"
-	"viewer/internal/domain"
+
+	"gitea.kood.tech/ivanandreev/viewer/internal/domain"
 )
 
 // TODO: maybe it shouldn't be here, its business logic

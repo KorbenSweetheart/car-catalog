@@ -4,8 +4,9 @@ import (
 	"html/template"
 	"log/slog"
 	"net/http"
-	"viewer/internal/controller/http/handlers"
-	"viewer/internal/controller/http/middleware"
+
+	"gitea.kood.tech/ivanandreev/viewer/internal/controller/http/handlers"
+	"gitea.kood.tech/ivanandreev/viewer/internal/controller/http/middleware"
 )
 
 func NewRouter(log *slog.Logger, tmplts map[string]*template.Template, homeUC handlers.HomeUsecase) http.Handler {

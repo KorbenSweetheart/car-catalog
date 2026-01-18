@@ -2,8 +2,9 @@ package main
 
 import (
 	"os"
-	"viewer/internal/app"
-	"viewer/internal/config"
+
+	"gitea.kood.tech/ivanandreev/viewer/internal/app"
+	"gitea.kood.tech/ivanandreev/viewer/internal/config"
 )
 
 func main() {

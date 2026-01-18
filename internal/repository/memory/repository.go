@@ -7,8 +7,9 @@ import (
 	"math/rand"
 	"sync"
 	"time"
-	"viewer/internal/domain"
-	"viewer/internal/lib/e"
+
+	"gitea.kood.tech/ivanandreev/viewer/internal/domain"
+	"gitea.kood.tech/ivanandreev/viewer/internal/lib/e"
 )
 
 type DataFetcher interface {

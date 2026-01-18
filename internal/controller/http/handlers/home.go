@@ -6,7 +6,8 @@ import (
 	"html/template"
 	"log/slog"
 	"net/http"
-	"viewer/internal/domain"
+
+	"gitea.kood.tech/ivanandreev/viewer/internal/domain"
 )
 
 type HomeUsecase interface {

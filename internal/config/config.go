@@ -5,7 +5,8 @@ import (
 	"log"
 	"os"
 	"time"
-	"viewer/internal/lib/e"
+
+	"gitea.kood.tech/ivanandreev/viewer/internal/lib/e"
 )
 
 type Config struct {

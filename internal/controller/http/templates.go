@@ -5,7 +5,8 @@ import (
 	"html/template"
 	"log/slog"
 	"path/filepath"
-	"viewer/internal/lib/e"
+
+	"gitea.kood.tech/ivanandreev/viewer/internal/lib/e"
 )
 
 // NOTE: its better to do this by building a Template Cache (or a "Render Engine") and using Layout Inheritance.

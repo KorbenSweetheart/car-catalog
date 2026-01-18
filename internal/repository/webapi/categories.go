@@ -4,8 +4,9 @@ import (
 	"context"
 	"encoding/json"
 	"log/slog"
-	"viewer/internal/domain"
-	"viewer/internal/lib/e"
+
+	"gitea.kood.tech/ivanandreev/viewer/internal/domain"
+	"gitea.kood.tech/ivanandreev/viewer/internal/lib/e"
 )
 
 func (w *WebRepository) Categories(ctx context.Context) ([]domain.Category, error) {

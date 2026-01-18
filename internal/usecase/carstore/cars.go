@@ -3,8 +3,9 @@ package carstore
 import (
 	"context"
 	"log/slog"
-	"viewer/internal/domain"
-	"viewer/internal/lib/e"
+
+	"gitea.kood.tech/ivanandreev/viewer/internal/domain"
+	"gitea.kood.tech/ivanandreev/viewer/internal/lib/e"
 )
 
 // The Business Logic -> provide car/cars

@@ -4,14 +4,15 @@ import (
 	"context"
 	"log/slog"
 	"time"
-	"viewer/internal/config"
-	httpserver "viewer/internal/controller/http"
-	"viewer/internal/lib/e"
-	"viewer/internal/repository/memory"
-	"viewer/internal/repository/webapi"
-	"viewer/internal/usecase/carstore"
-	"viewer/pkg/httpclient"
-	"viewer/pkg/logger"
+
+	"gitea.kood.tech/ivanandreev/viewer/internal/config"
+	httpserver "gitea.kood.tech/ivanandreev/viewer/internal/controller/http"
+	"gitea.kood.tech/ivanandreev/viewer/internal/lib/e"
+	"gitea.kood.tech/ivanandreev/viewer/internal/repository/memory"
+	"gitea.kood.tech/ivanandreev/viewer/internal/repository/webapi"
+	"gitea.kood.tech/ivanandreev/viewer/internal/usecase/carstore"
+	"gitea.kood.tech/ivanandreev/viewer/pkg/httpclient"
+	"gitea.kood.tech/ivanandreev/viewer/pkg/logger"
 )
 
 // This struct holds your entire running application

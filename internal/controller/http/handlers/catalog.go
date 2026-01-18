@@ -1,6 +1,6 @@
 package handlers
 
-import "viewer/internal/domain"
+import "gitea.kood.tech/ivanandreev/viewer/internal/domain"
 
 type CatalogueProvider interface {
 	CarModels(int) ([]domain.Car, error)              // maybe use int to limit the amount of fethed items?

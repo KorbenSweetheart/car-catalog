@@ -9,7 +9,8 @@ import (
 	"os/signal"
 	"syscall"
 	"time"
-	"viewer/internal/config"
+
+	"gitea.kood.tech/ivanandreev/viewer/internal/config"
 )
 
 func NewHTTPServer(handler http.Handler, cfg *config.Config) *http.Server {

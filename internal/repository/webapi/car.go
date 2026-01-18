@@ -7,8 +7,9 @@ import (
 	"log/slog"
 	"net/url"
 	"strconv"
-	"viewer/internal/domain"
-	"viewer/internal/lib/e"
+
+	"gitea.kood.tech/ivanandreev/viewer/internal/domain"
+	"gitea.kood.tech/ivanandreev/viewer/internal/lib/e"
 )
 
 // Car(ctx context.Context, id int) (domain.Car, error)

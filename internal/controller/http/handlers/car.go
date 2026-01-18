@@ -3,7 +3,8 @@ package handlers
 import (
 	"log/slog"
 	"net/http"
-	"viewer/internal/domain"
+
+	"gitea.kood.tech/ivanandreev/viewer/internal/domain"
 )
 
 type CarProvider interface {
