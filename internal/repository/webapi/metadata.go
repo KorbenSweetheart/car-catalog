@@ -18,7 +18,7 @@ func (w *WebRepository) Metadata(ctx context.Context) (domain.Metadata, error) {
 	vendors, err := w.Manufacturers(ctx)
 	if err != nil {
 		log.Error("failed to get manufacturers", slog.Any("error", err))
-		return domain.Metadata{}, e.Wrap("failed to get manufacturers: %w", err)
+		return domain.Metadata{}, e.Wrap("failed to get manufacturers", err)
 	}
 
 	categories, err := w.Categories(ctx)
@@ -63,9 +63,9 @@ func (w *WebRepository) Metadata(ctx context.Context) (domain.Metadata, error) {
 	)
 
 	return domain.Metadata{
-		Manufacturers: append([]domain.Manufacturer(nil), vendors...),
-		Categories:    append([]domain.Category(nil), categories...),
-		Drivetrains:   append([]string(nil), drivetrains...),
-		Transmissions: append([]string(nil), transmissions...),
+		Manufacturers: vendors,
+		Categories:    categories,
+		Drivetrains:   drivetrains,
+		Transmissions: transmissions,
 	}, nil
 }
