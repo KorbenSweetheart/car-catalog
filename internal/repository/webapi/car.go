@@ -7,6 +7,7 @@ import (
 	"log/slog"
 	"net/url"
 	"strconv"
+	"strings"
 
 	"gitea.kood.tech/ivanandreev/viewer/internal/domain"
 	"gitea.kood.tech/ivanandreev/viewer/internal/lib/e"
@@ -66,10 +67,11 @@ func (w *WebRepository) Car(ctx context.Context, id int) (domain.Car, error) {
 
 		// Map the nested Specs struct
 		Specs: domain.Specs{
-			Engine:     carDTO.Specs.Engine,
-			HP:         carDTO.Specs.HP,
-			Gearbox:    carDTO.Specs.Gearbox,
-			Drivetrain: carDTO.Specs.Drivetrain,
+			Engine:       carDTO.Specs.Engine,
+			HP:           carDTO.Specs.HP,
+			Gearbox:      carDTO.Specs.Gearbox,
+			Transmission: NormalizeGearbox(carDTO.Specs.Gearbox),
+			Drivetrain:   carDTO.Specs.Drivetrain,
 		},
 
 		// Map the nested Vendor struct
@@ -88,4 +90,17 @@ func (w *WebRepository) Car(ctx context.Context, id int) (domain.Car, error) {
 	}
 
 	return car, nil
+}
+
+// Helper function to prepopulate transmission field
+func NormalizeGearbox(gearbox string) string {
+
+	// If it contains "manual", it's a manual
+	if strings.Contains(strings.ToLower(gearbox), "manual") {
+		return domain.TransmissionManual
+	}
+
+	// Everything else (Automatic, CVT, DSG, Dual Clutch, Single-Speed)
+	// counts as "Automatic" for a general filter.
+	return domain.TransmissionAutomatic
 }

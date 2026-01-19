@@ -15,10 +15,10 @@ const limit = 4
 type CarProvider interface {
 	Car(ctx context.Context, ID int) (domain.Car, error)
 	Cars(ctx context.Context) ([]domain.Car, error)
-	Manufacturer(ctx context.Context, ID int) (domain.Manufacturer, error)
-	Manufacturers(ctx context.Context) ([]domain.Manufacturer, error)
-	Category(ctx context.Context, ID int) (domain.Category, error)
-	Categories(ctx context.Context) ([]domain.Category, error)
+	Manufacturer(ctx context.Context, ID int) (domain.Manufacturer, error) // maybe not needed here, since most likely we won't use it in usecase layer
+	Manufacturers(ctx context.Context) ([]domain.Manufacturer, error)      // maybe not needed here, since most likely we won't use it in usecase layer
+	Category(ctx context.Context, ID int) (domain.Category, error)         // maybe not needed here, since most likely we won't use it in usecase layer
+	Categories(ctx context.Context) ([]domain.Category, error)             // maybe not needed here, since most likely we won't use it in usecase layer
 	RandomCars(ctx context.Context, limit int) ([]domain.Car, error)
 	Metadata(ctx context.Context) (domain.Metadata, error)
 }
@@ -38,7 +38,9 @@ func New(log *slog.Logger, r CarProvider) *CarStore {
 func (s *CarStore) Car(ctx context.Context, ID int) (domain.Car, error) {
 	const op = "usecase.carstore.Car"
 
-	log := s.log.With("op", op)
+	log := s.log.With(
+		slog.String("op", op),
+	)
 
 	car, err := s.repo.Car(ctx, ID)
 	if err != nil {
@@ -56,7 +58,9 @@ func (s *CarStore) Car(ctx context.Context, ID int) (domain.Car, error) {
 func (s *CarStore) Cars(ctx context.Context) ([]domain.Car, error) {
 	const op = "usecase.carstore.Cars"
 
-	log := s.log.With("op", op)
+	log := s.log.With(
+		slog.String("op", op),
+	)
 
 	cars, err := s.repo.Cars(ctx)
 	if err != nil {
@@ -74,7 +78,9 @@ func (s *CarStore) Cars(ctx context.Context) ([]domain.Car, error) {
 func (s *CarStore) RandomCars(ctx context.Context) ([]domain.Car, error) {
 	const op = "usecase.carstore.RandomCars"
 
-	log := s.log.With("op", op)
+	log := s.log.With(
+		slog.String("op", op),
+	)
 
 	// Logic: Get 4 cars, maybe filter them, maybe handle errors specifically
 	cars, err := s.repo.RandomCars(ctx, limit)
@@ -90,19 +96,12 @@ func (s *CarStore) RandomCars(ctx context.Context) ([]domain.Car, error) {
 	return cars, nil
 }
 
-/* Catalog filters
-Manufacturer
-Category
-Drive Train
-Transmission
-Year min (user input)
-Power (hp) (user input)
-*/
-
 func (s *CarStore) Filters(ctx context.Context) (domain.Metadata, error) {
 	const op = "usecase.carstore.Filters"
 
-	log := s.log.With("op", op)
+	log := s.log.With(
+		slog.String("op", op),
+	)
 
 	filters, err := s.repo.Metadata(ctx)
 	if err != nil {
@@ -112,3 +111,12 @@ func (s *CarStore) Filters(ctx context.Context) (domain.Metadata, error) {
 
 	return filters, nil
 }
+
+/* Catalog filters
+Manufacturer
+Category
+Drive Train
+Transmission
+Year min (user input)
+Power (hp) (user input)
+*/

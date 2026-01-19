@@ -23,7 +23,6 @@ const (
 	endpointModels        = "models"
 	endpointManufacturers = "manufacturers"
 	endpointCategories    = "categories"
-	endpointImages        = "images"
 )
 
 type Client interface {

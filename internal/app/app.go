@@ -57,15 +57,15 @@ func (app *App) Run() error {
 	startupCtx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 	defer cancel()
 
-	if err := repo.Refresh(startupCtx); err != nil {
-		app.log.Error("initial data load failed", slog.Any("error", err))
-		return e.Wrap("initial data load failed", err)
-	}
+	// if err := repo.Refresh(startupCtx); err != nil {
+	// 	app.log.Error("initial data load failed", slog.Any("error", err))
+	// 	return e.Wrap("initial data load failed", err)
+	// }
 
-	app.log.Info("initial data load complete")
+	// app.log.Info("initial data load complete")
 
-	// Start the Refresh Ticker and background memory refresh each 10 min
-	go app.startBackgroundRefresh(appCtx, repo)
+	// // Start the Refresh Ticker and background memory refresh each 10 min
+	// go app.startBackgroundRefresh(appCtx, repo)
 
 	// Usecase (CarStore) - business logic layer
 	carStore := carstore.New(app.log, repo)

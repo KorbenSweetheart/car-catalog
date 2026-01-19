@@ -45,10 +45,11 @@ func (w *WebRepository) Cars(ctx context.Context) ([]domain.Car, error) {
 
 			// Map the Nested Specs Struct
 			Specs: domain.Specs{
-				Engine:     d.Specs.Engine,
-				HP:         d.Specs.HP,
-				Gearbox:    d.Specs.Gearbox,
-				Drivetrain: d.Specs.Drivetrain,
+				Engine:       d.Specs.Engine,
+				HP:           d.Specs.HP,
+				Gearbox:      d.Specs.Gearbox,
+				Transmission: NormalizeGearbox(d.Specs.Gearbox),
+				Drivetrain:   d.Specs.Drivetrain,
 			},
 
 			// PARTIAL FILL: We only know and need the ID right now.

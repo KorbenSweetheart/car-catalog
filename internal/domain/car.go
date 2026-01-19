@@ -35,6 +35,7 @@ type Category struct {
 	Name string
 }
 
+// used for user input in catalog to filter cars
 type FilterOptions struct {
 	ManufacturerID int
 	CategoryID     int
