@@ -27,17 +27,17 @@ func (c *Client) DoRequest(ctx context.Context, path string) (data []byte, err e
 
 	URL, err := url.JoinPath(c.host, path)
 	if err != nil {
-		return nil, fmt.Errorf("invalid url", err)
+		return nil, fmt.Errorf("invalid url: %w", err)
 	}
 
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, URL, nil)
 	if err != nil {
-		return nil, fmt.Errorf("can't create request", err)
+		return nil, fmt.Errorf("can't create request: %w", err)
 	}
 
 	resp, err := c.client.Do(req)
 	if err != nil {
-		return nil, fmt.Errorf("can't do request", err)
+		return nil, fmt.Errorf("can't do request: %w", err)
 	}
 	defer func() { _ = resp.Body.Close() }()
 
@@ -47,7 +47,7 @@ func (c *Client) DoRequest(ctx context.Context, path string) (data []byte, err e
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return nil, fmt.Errorf("can't read body", err)
+		return nil, fmt.Errorf("can't read body: %w", err)
 	}
 
 	return body, nil
