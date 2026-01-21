@@ -54,8 +54,8 @@ func (app *App) Run() error {
 	// TODO: think about backoff and failcount
 	app.log.Info("performing initial data load...")
 
-	startupCtx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
-	defer cancel()
+	// startupCtx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
+	// defer cancel()
 
 	// if err := repo.Refresh(startupCtx); err != nil {
 	// 	app.log.Error("initial data load failed", slog.Any("error", err))

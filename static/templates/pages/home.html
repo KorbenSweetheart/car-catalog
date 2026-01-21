@@ -4,7 +4,8 @@
 <section class="hero">
     <div class="hero-video-wrapper">
         <video autoplay muted loop playsinline class="hero-video">
-            <source src="https://videos.pexels.com/video-files/2882790/2882790-hd_1920_1080_24fps.mp4" type="video/mp4">
+            <source src="/static/assets/video/winter-hero-video.mp4" type="video/mp4">
+            <!-- <source src="/static/assets/video/hero_60s_1920x544.webm" type="video/webm"> -->
             Your browser does not support the video tag.
         </video>
         <div class="hero-overlay"></div>
@@ -16,7 +17,7 @@
         
         <form action="/catalog" method="GET" class="search-form">
             <input type="text" name="q" placeholder="Type a car model (e.g. BMW X5)..." class="search-input">
-            <button type="submit" class="search-btn">Search Cars</button>
+            <button type="submit" class="search-btn">Search</button>
         </form>
     </div>
 </section>
@@ -44,14 +45,30 @@
 <section class="container grid-section">
     <div class="section-header">
         <div>
-            <h2>Featured Arrivals</h2>
-            <p style="color: var(--gray); margin-top: 8px;">Freshly added cars you might like.</p>
+            <h2>Popular Cars</h2>
+            <p style="color: var(--gray); margin-top: 8px;">Most viewed cars.</p>
         </div>
-        <a href="/catalog" class="card-link" style="font-size: 1rem;">View All Inventory &rarr;</a>
+        <a href="/catalog" class="card-link" style="font-size: 1rem;">See more &rarr;</a>
     </div>
 
     <div class="grid">
         {{range .Cars}}
+            {{template "card" .}}
+        {{end}}
+    </div>
+</section>
+
+<section class="container grid-section">
+    <div class="section-header">
+        <div>
+            <h2>Recently viewed cars</h2>
+            <p style="color: var(--gray); margin-top: 8px;">Cars you have looked at before.</p>
+        </div>
+        <a href="/catalog" class="card-link" style="font-size: 1rem;">See more &rarr;</a>
+    </div>
+
+    <div class="grid">
+        {{range .familyCars}}
             {{template "card" .}}
         {{end}}
     </div>

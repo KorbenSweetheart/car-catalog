@@ -35,7 +35,14 @@ func (h *HomeHandler) Index(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
 	// 1. Fetch Data via Usecase
-	cars, err := h.uc.RandomCars(ctx)
+	popularCars, err := h.uc.RandomCars(ctx)
+	if err != nil {
+		h.log.Error("failed to load home data", "op", op, "error", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+
+	familyCars, err := h.uc.RandomCars(ctx)
 	if err != nil {
 		h.log.Error("failed to load home data", "op", op, "error", err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
@@ -44,8 +51,9 @@ func (h *HomeHandler) Index(w http.ResponseWriter, r *http.Request) {
 
 	// 2. Prepare Data for Template
 	data := map[string]any{
-		"Title": "Home - CarViewer",
-		"Cars":  cars, // Passed to {{range .Cars}}
+		"Title":      "Home - RedCar Oy",
+		"Cars":       popularCars, // Passed to {{range .Cars}}
+		"familyCars": familyCars,
 	}
 
 	// 3. Render
