@@ -15,23 +15,28 @@ const limit = 4
 type CarProvider interface {
 	Car(ctx context.Context, ID int) (domain.Car, error)
 	Cars(ctx context.Context) ([]domain.Car, error)
-	Manufacturer(ctx context.Context, ID int) (domain.Manufacturer, error) // maybe not needed here, since most likely we won't use it in usecase layer
-	Manufacturers(ctx context.Context) ([]domain.Manufacturer, error)      // maybe not needed here, since most likely we won't use it in usecase layer
-	Category(ctx context.Context, ID int) (domain.Category, error)         // maybe not needed here, since most likely we won't use it in usecase layer
-	Categories(ctx context.Context) ([]domain.Category, error)             // maybe not needed here, since most likely we won't use it in usecase layer
 	RandomCars(ctx context.Context, limit int) ([]domain.Car, error)
 	Metadata(ctx context.Context) (domain.Metadata, error)
 }
 
-type CarStore struct {
-	log  *slog.Logger
-	repo CarProvider
+type CacheProvider interface {
+	Get(ctx context.Context, id int) (domain.Car, bool)
+	Set(ctx context.Context, c domain.Car)
+	GetMetadata(ctx context.Context) (domain.Metadata, bool)
+	SetMetadata(ctx context.Context, m domain.Metadata)
 }
 
-func New(log *slog.Logger, r CarProvider) *CarStore {
+type CarStore struct {
+	log   *slog.Logger
+	repo  CarProvider
+	cache CacheProvider
+}
+
+func New(log *slog.Logger, r CarProvider, c CacheProvider) *CarStore {
 	return &CarStore{
-		log:  log,
-		repo: r,
+		log:   log,
+		repo:  r,
+		cache: c,
 	}
 }
 
@@ -42,11 +47,18 @@ func (s *CarStore) Car(ctx context.Context, ID int) (domain.Car, error) {
 		slog.String("op", op),
 	)
 
+	if car, found := s.cache.Get(ctx, ID); found {
+		s.log.Debug("loaded car from cache", "id", ID)
+		return car, nil
+	}
+
 	car, err := s.repo.Car(ctx, ID)
 	if err != nil {
 		log.Error("failed to get car by id", slog.Any("error", err))
 		return domain.Car{}, e.Wrap("failed to get car by id: %w", err)
 	}
+
+	s.cache.Set(ctx, car)
 
 	log.Info("car loaded",
 		slog.Int("car_id", ID),
@@ -103,11 +115,20 @@ func (s *CarStore) Filters(ctx context.Context) (domain.Metadata, error) {
 		slog.String("op", op),
 	)
 
+	if meta, found := s.cache.GetMetadata(ctx); found {
+		s.log.Debug("loaded metadata from cache")
+		return meta, nil
+	}
+
 	filters, err := s.repo.Metadata(ctx)
 	if err != nil {
 		log.Error("failed to get metadata", slog.Any("error", err))
 		return domain.Metadata{}, e.Wrap("failed to get metadata: %w", err)
 	}
+
+	s.cache.SetMetadata(ctx, filters)
+
+	log.Info("metadata loaded")
 
 	return filters, nil
 }
