@@ -7,10 +7,11 @@ import (
 
 	"gitea.kood.tech/ivanandreev/viewer/internal/config"
 	httpserver "gitea.kood.tech/ivanandreev/viewer/internal/controller/http"
+	"gitea.kood.tech/ivanandreev/viewer/internal/lib/adapter"
 	"gitea.kood.tech/ivanandreev/viewer/internal/lib/e"
-	"gitea.kood.tech/ivanandreev/viewer/internal/repository/memory"
 	"gitea.kood.tech/ivanandreev/viewer/internal/repository/webapi"
 	"gitea.kood.tech/ivanandreev/viewer/internal/usecase/carstore"
+	"gitea.kood.tech/ivanandreev/viewer/pkg/cache"
 	"gitea.kood.tech/ivanandreev/viewer/pkg/httpclient"
 	"gitea.kood.tech/ivanandreev/viewer/pkg/logger"
 )
@@ -47,28 +48,17 @@ func (app *App) Run() error {
 	repo := webapi.New(
 		app.log,
 		client,
-		app.cfg.Repo.MediaHost,
 	)
 
-	// Initial load (Startup phase)
-	// TODO: think about backoff and failcount
-	app.log.Info("performing initial data load...")
+	// Cache
+	cache := cache.New(app.cfg.Cache.DefaultExpiration, app.cfg.Cache.CleanupInterval)
+	app.log.Info("launched cache janitor in goroutine")
 
-	// startupCtx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
-	// defer cancel()
-
-	// if err := repo.Refresh(startupCtx); err != nil {
-	// 	app.log.Error("initial data load failed", slog.Any("error", err))
-	// 	return e.Wrap("initial data load failed", err)
-	// }
-
-	// app.log.Info("initial data load complete")
-
-	// // Start the Refresh Ticker and background memory refresh each 10 min
-	// go app.startBackgroundRefresh(appCtx, repo)
+	// Cache adapter to wire cache keys-value, to domain structs
+	cacheAdapter := adapter.NewAdapter(cache, app.log)
 
 	// Usecase (CarStore) - business logic layer
-	carStore := carstore.New(app.log, repo)
+	carStore := carstore.New(app.log, repo, cacheAdapter)
 
 	// parse templates
 	templates, err := httpserver.ParseTemplates(app.cfg.HTTPServer.TemplatesPath, app.log)
@@ -90,27 +80,4 @@ func (app *App) Run() error {
 	}
 
 	return nil
-}
-
-func (app *App) startBackgroundRefresh(ctx context.Context, repo *memory.Repository) {
-	ticker := time.NewTicker(app.cfg.Repo.RefreshInterval)
-	defer ticker.Stop()
-
-	for {
-		select {
-		case <-ctx.Done(): // Stop signal: If Run() finishes, this case triggers
-			return
-		case <-ticker.C: // Ticker signal: Normal work
-			app.log.Info("start refreshing data cache...")
-
-			refreshCtx, cancel := context.WithTimeout(context.Background(), app.cfg.Client.Timeout*3)
-
-			if err := repo.Refresh(refreshCtx); err != nil {
-				app.log.Error("background refresh failed", slog.Any("error", err))
-			} else {
-				app.log.Info("data refreshed successfully")
-			}
-			cancel()
-		}
-	}
 }
