@@ -23,6 +23,7 @@ const (
 	endpointModels        = "models"
 	endpointManufacturers = "manufacturers"
 	endpointCategories    = "categories"
+	mediaHost             = "http://localhost:3000/api/images"
 )
 
 type Client interface {
@@ -35,7 +36,7 @@ type WebRepository struct {
 	mediaHost string
 }
 
-func New(log *slog.Logger, client Client, mediaHost string) *WebRepository {
+func New(log *slog.Logger, client Client) *WebRepository {
 	return &WebRepository{
 		log:       log,
 		client:    client,
