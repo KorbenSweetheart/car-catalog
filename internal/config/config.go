@@ -13,7 +13,7 @@ type Config struct {
 	Env        string     `json:"env"`
 	HTTPServer HTTPServer `json:"http_server"`
 	Client     Client     `json:"client"`
-	Repo       Repository `json:"repository"`
+	Cache      Cache      `json:"cache"`
 }
 
 type HTTPServer struct {
@@ -32,10 +32,11 @@ type Client struct {
 	TimeoutStr string `json:"cleint_timeout"`
 }
 
-type Repository struct {
-	MediaHost          string `json:"media_host"`
-	RefreshInterval    time.Duration
-	RefreshIntervalStr string `json:"refresh_interval"`
+type Cache struct {
+	DefaultExpiration    time.Duration
+	CleanupInterval      time.Duration
+	DefaultExpirationStr string `json:"default_expiration"`
+	CleanupIntervalStr   string `json:"cleanup_interval"`
 }
 
 func MustLoad() *Config {
@@ -77,9 +78,14 @@ func MustLoad() *Config {
 		log.Fatalf("can't parse client timeout: %v", err)
 	}
 
-	cfg.Repo.RefreshInterval, err = time.ParseDuration(cfg.Repo.RefreshIntervalStr)
+	cfg.Cache.DefaultExpiration, err = time.ParseDuration(cfg.Cache.DefaultExpirationStr)
 	if err != nil {
-		log.Fatalf("can't parse client timeout: %v", err)
+		log.Fatalf("can't parse cache default expiration: %v", err)
+	}
+
+	cfg.Cache.CleanupInterval, err = time.ParseDuration(cfg.Cache.CleanupIntervalStr)
+	if err != nil {
+		log.Fatalf("can't parse cache cleanup interval: %v", err)
 	}
 
 	return &cfg

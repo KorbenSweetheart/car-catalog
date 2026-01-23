@@ -11,8 +11,8 @@
     "host": "http://localhost:3000/api",
     "cleint_timeout": "10s"
   },
-    "repository":{
-      "media_host": "http://localhost:3000/api/images",
-      "refresh_interval": "10m"
+    "cache":{
+      "default_expiration": "10m",
+	    "cleanup_interval": "15m"
   }
 }
