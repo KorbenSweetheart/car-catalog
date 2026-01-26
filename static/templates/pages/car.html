@@ -1,0 +1,85 @@
+{{template "base" .}}
+
+{{define "content"}}
+<div class="car-container">
+    
+    <div class="car-hero">
+        <a href="/catalog" class="back-pill">← Back</a>
+        
+        <img src="{{ .Car.Image }}" alt="{{ .Car.Name }}" class="hero-image">
+    </div>
+
+    <div class="car-details-card">
+        
+        <div class="details-header">
+            <h1>{{ .Car.Name }}</h1>
+            <p class="subtitle">{{ .Car.Specs.Engine }} {{ .Car.Specs.Drivetrain }} Business</p>
+        </div>
+
+        <div class="specs-grid">
+            
+            <div class="spec-item">
+                <span class="label">Year of Manufacture</span>
+                <span class="value">{{ .Car.Year }}</span>
+            </div>
+            <div class="spec-item">
+                <span class="label">Manufacturer</span>
+                <span class="value">{{ .Car.Manufacturer.Name }}</span>
+            </div>
+
+            <div class="spec-item">
+                <span class="label">Engine</span>
+                <span class="value">{{ .Car.Specs.Engine }}</span>
+            </div>
+            <div class="spec-item">
+                <span class="label">Power (hp)</span>
+                <span class="value">{{ .Car.Specs.HP }} hp</span>
+            </div>
+
+            <div class="spec-item">
+                <span class="label">Transmission</span>
+                <span class="value">{{ .Car.Specs.Transmission }}</span>
+            </div>
+            <div class="spec-item">
+                <span class="label">Gearbox</span>
+                <span class="value">{{ .Car.Specs.Gearbox }}</span>
+            </div>
+            <div class="spec-item">
+                <span class="label">Body Type</span>
+                <span class="value">{{ .Car.Category.Name }}</span>
+            </div>
+            <div class="spec-item">
+                <span class="label">Drive Type</span>
+                <span class="value">{{ .Car.Specs.Drivetrain }}</span>
+            </div>
+        </div>
+
+        <div class="delivery-note">
+            Free delivery to the nearest RedCars dealer! Home delivery €99 in mainland Finland.
+        </div>
+
+        <div class="actions">
+            <button class="btn btn-primary">
+                Leave a contact request ✉️
+            </button>
+            
+            <button class="btn btn-secondary">
+                Compare ⇄
+            </button>
+        </div>
+
+    </div>
+</div>
+
+<section class="container grid-section">
+    <div class="section-header">
+        <div>
+            <h2>Popular Cars</h2>
+            <p style="color: var(--gray); margin-top: 8px;">Most viewed cars.</p>
+        </div>
+        <a href="/catalog" class="card-link" style="font-size: 1rem;">See more &rarr;</a>
+    </div>
+
+    {{template "card_grid" .PopularCars}}
+</section>
+{{end}}

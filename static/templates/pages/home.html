@@ -51,11 +51,7 @@
         <a href="/catalog" class="card-link" style="font-size: 1rem;">See more &rarr;</a>
     </div>
 
-    <div class="grid">
-        {{range .Cars}}
-            {{template "card" .}}
-        {{end}}
-    </div>
+    {{template "card_grid" .PopularCars}}
 </section>
 
 <section class="container grid-section">
@@ -67,10 +63,6 @@
         <a href="/catalog" class="card-link" style="font-size: 1rem;">See more &rarr;</a>
     </div>
 
-    <div class="grid">
-        {{range .familyCars}}
-            {{template "card" .}}
-        {{end}}
-    </div>
+    {{template "card_grid" .FamilyCars}}
 </section>
 {{end}}

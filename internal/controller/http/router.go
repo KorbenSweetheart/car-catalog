@@ -9,7 +9,7 @@ import (
 	"gitea.kood.tech/ivanandreev/viewer/internal/controller/http/middleware"
 )
 
-func NewRouter(log *slog.Logger, tmplts map[string]*template.Template, homeUC handlers.HomeUsecase) http.Handler {
+func NewRouter(log *slog.Logger, tmplts map[string]*template.Template, homeUC handlers.HomeUsecase, carUC handlers.CarUsecase) http.Handler {
 	mux := http.NewServeMux()
 
 	addRoutes(
@@ -17,6 +17,7 @@ func NewRouter(log *slog.Logger, tmplts map[string]*template.Template, homeUC ha
 		log,
 		tmplts,
 		homeUC,
+		carUC,
 	)
 
 	reqID := middleware.NewReqIDMiddleware(log)
@@ -28,16 +29,20 @@ func NewRouter(log *slog.Logger, tmplts map[string]*template.Template, homeUC ha
 
 // func newMiddleware(log *slog.Logger) func(h http.Handler) http.Handler
 
-func addRoutes(mux *http.ServeMux, logger *slog.Logger, tmplts map[string]*template.Template, homeUC handlers.HomeUsecase) {
+func addRoutes(mux *http.ServeMux, logger *slog.Logger, tmplts map[string]*template.Template, homeUC handlers.HomeUsecase, carUC handlers.CarUsecase) {
 
 	homeHandler := handlers.NewHomeHandler(logger, homeUC, tmplts)
+	carHandler := handlers.NewCarHandler(logger, carUC, tmplts)
+
 	mux.HandleFunc("GET /{$}", homeHandler.Index)
+	mux.HandleFunc("GET /catalog/{id}", carHandler.Index)
+
+	// Load static
 	fs := http.FileServer(http.Dir("./static"))
 	mux.Handle("GET /static/", http.StripPrefix("/static/", fs))
 
 	// Page handlers
 	// mux.Handle("GET /{$}", handlers.HandleHome(logger, tmplts)) // handle must return http.Handler
-	// mux.Handle("GET /static/", handlers.HandleStatic(logger))
 	// mux.Handle("GET /", handlers.HandleNotFound(logger, tmplts))
 
 	// Action handlers

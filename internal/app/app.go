@@ -67,10 +67,11 @@ func (app *App) Run() error {
 		return e.Wrap("failed to parse templates", err)
 	}
 
-	// construct new router -> Transport layer
-	router := httpserver.NewRouter(app.log, templates, carStore)
+	// Router -> Transport layer
+	router := httpserver.NewRouter(app.log, templates, carStore, carStore)
 
-	// construct new server
+	// Server
+	// TODO: maybe move to pkg as well.
 	httpServer := httpserver.NewHTTPServer(router, app.cfg)
 
 	// run server

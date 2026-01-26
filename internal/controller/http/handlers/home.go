@@ -51,9 +51,9 @@ func (h *HomeHandler) Index(w http.ResponseWriter, r *http.Request) {
 
 	// 2. Prepare Data for Template
 	data := map[string]any{
-		"Title":      "Home - RedCar Oy",
-		"Cars":       popularCars, // Passed to {{range .Cars}}
-		"familyCars": familyCars,
+		"Title":       "Home - RedCar Oy",
+		"PopularCars": popularCars, // Passed to {{range .Cars}}
+		"FamilyCars":  familyCars,
 	}
 
 	// 3. Render
