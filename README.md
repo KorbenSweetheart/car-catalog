@@ -11,3 +11,8 @@ TODO:
 [ ] Add car search
 [ ] refactor CSS
 [ ] Add favicon
+
+Maybe:
+[ ] Put everyting in Docker
+[ ] Try Redis as a repo or cache replacement
+[ ] Try SQLite as a repo replacement
