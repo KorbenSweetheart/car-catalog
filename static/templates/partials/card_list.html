@@ -1,0 +1,13 @@
+<!-- {{define "card_grid"}}
+<div class="grid">
+    {{range .}}
+        {{template "card" .}}
+    {{end}}
+</div>
+{{end}} -->
+
+{{define "card_list"}}
+    {{range .}}
+        {{template "card" .}}
+    {{end}}
+{{end}}

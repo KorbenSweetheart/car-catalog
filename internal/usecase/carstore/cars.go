@@ -48,7 +48,7 @@ func (s *CarStore) Car(ctx context.Context, ID int) (domain.Car, error) {
 	)
 
 	if car, found := s.cache.Get(ctx, ID); found {
-		s.log.Debug("loaded car from cache", "id", ID)
+		log.Debug("loaded car from cache", "id", ID)
 		return car, nil
 	}
 
@@ -108,7 +108,7 @@ func (s *CarStore) RandomCars(ctx context.Context) ([]domain.Car, error) {
 	return cars, nil
 }
 
-func (s *CarStore) Filters(ctx context.Context) (domain.Metadata, error) {
+func (s *CarStore) Metadata(ctx context.Context) (domain.Metadata, error) {
 	const op = "usecase.carstore.Filters"
 
 	log := s.log.With(
@@ -116,7 +116,7 @@ func (s *CarStore) Filters(ctx context.Context) (domain.Metadata, error) {
 	)
 
 	if meta, found := s.cache.GetMetadata(ctx); found {
-		s.log.Debug("loaded metadata from cache")
+		log.Debug("loaded metadata from cache")
 		return meta, nil
 	}
 

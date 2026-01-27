@@ -48,6 +48,6 @@ type FilterOptions struct {
 type Metadata struct {
 	Manufacturers []Manufacturer
 	Categories    []Category
-	Drivetrains   []string // e.g. "All-Wheel Drive", "Rear-Wheel Drive"
+	Drivetrains   []string // e.g. "All-Wheel Drive", "Rear-Wheel Drive", "Front-Wheel Drive"
 	Transmissions []string // e.g. "Automatic", "Manual"
 }

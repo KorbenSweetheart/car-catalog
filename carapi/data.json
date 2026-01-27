@@ -89,18 +89,14 @@
     },
     {
       "id": 7,
-      "name": "Wagon"
+      "name": "Estate"
     },
     {
       "id": 8,
-      "name": "Electric"
-    },
-    {
-      "id": 9,
       "name": "Luxury"
     },
     {
-      "id": 10,
+      "id": 9,
       "name": "Sports"
     }
   ],
@@ -152,7 +148,7 @@
       "id": 4,
       "name": "Audi A4",
       "manufacturerId": 4,
-      "categoryId": 2,
+      "categoryId": 7,
       "year": 2024,
       "specifications": {
         "engine": "2.0L Inline-4",
@@ -278,7 +274,7 @@
       "id": 13,
       "name": "BMW 5 Series",
       "manufacturerId": 3,
-      "categoryId": 9,
+      "categoryId": 8,
       "year": 2023,
       "specifications": {
         "engine": "3.0L Inline-6",
@@ -320,7 +316,7 @@
       "id": 16,
       "name": "Ford Mustang",
       "manufacturerId": 6,
-      "categoryId": 10,
+      "categoryId": 9,
       "year": 2024,
       "specifications": {
         "engine": "5.0L V8",
@@ -334,7 +330,7 @@
       "id": 17,
       "name": "Chevrolet Camaro",
       "manufacturerId": 7,
-      "categoryId": 10,
+      "categoryId": 9,
       "year": 2023,
       "specifications": {
         "engine": "6.2L V8",
@@ -446,7 +442,7 @@
       "id": 25,
       "name": "Mercedes-Benz S-Class",
       "manufacturerId": 5,
-      "categoryId": 9,
+      "categoryId": 8,
       "year": 2023,
       "specifications": {
         "engine": "3.0L Inline-6",
@@ -474,7 +470,7 @@
       "id": 27,
       "name": "Chevrolet Corvette",
       "manufacturerId": 7,
-      "categoryId": 10,
+      "categoryId": 9,
       "year": 2023,
       "specifications": {
         "engine": "6.2L V8",
@@ -613,7 +609,7 @@
       "id": 37,
       "name": "Chevrolet Bolt EV",
       "manufacturerId": 7,
-      "categoryId": 8,
+      "categoryId": 5,
       "year": 2023,
       "specifications": {
         "engine": "Electric Motor",
@@ -627,7 +623,7 @@
       "id": 38,
       "name": "Hyundai Ioniq 5",
       "manufacturerId": 8,
-      "categoryId": 8,
+      "categoryId": 5,
       "year": 2024,
       "specifications": {
         "engine": "Electric Motor",
@@ -655,7 +651,7 @@
       "id": 40,
       "name": "Nissan Leaf",
       "manufacturerId": 10,
-      "categoryId": 8,
+      "categoryId": 1,
       "year": 2024,
       "specifications": {
         "engine": "Electric Motor",

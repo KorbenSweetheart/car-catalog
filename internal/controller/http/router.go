@@ -1,23 +1,33 @@
 package httpserver
 
 import (
+	"context"
 	"html/template"
 	"log/slog"
 	"net/http"
 
 	"gitea.kood.tech/ivanandreev/viewer/internal/controller/http/handlers"
 	"gitea.kood.tech/ivanandreev/viewer/internal/controller/http/middleware"
+	"gitea.kood.tech/ivanandreev/viewer/internal/domain"
 )
 
-func NewRouter(log *slog.Logger, tmplts map[string]*template.Template, homeUC handlers.HomeUsecase, carUC handlers.CarUsecase) http.Handler {
+// Maybe implement as struct in app???
+type CarStorage interface {
+	Car(ctx context.Context, ID int) (domain.Car, error)
+	Cars(ctx context.Context) ([]domain.Car, error)
+	RandomCars(ctx context.Context) ([]domain.Car, error)
+	Catalog(ctx context.Context, filters domain.FilterOptions) ([]domain.Car, error)
+	Metadata(ctx context.Context) (domain.Metadata, error)
+}
+
+func NewRouter(log *slog.Logger, tmplts map[string]*template.Template, storage CarStorage) http.Handler {
 	mux := http.NewServeMux()
 
 	addRoutes(
 		mux,
 		log,
 		tmplts,
-		homeUC,
-		carUC,
+		storage,
 	)
 
 	reqID := middleware.NewReqIDMiddleware(log)
@@ -29,13 +39,15 @@ func NewRouter(log *slog.Logger, tmplts map[string]*template.Template, homeUC ha
 
 // func newMiddleware(log *slog.Logger) func(h http.Handler) http.Handler
 
-func addRoutes(mux *http.ServeMux, logger *slog.Logger, tmplts map[string]*template.Template, homeUC handlers.HomeUsecase, carUC handlers.CarUsecase) {
+func addRoutes(mux *http.ServeMux, logger *slog.Logger, tmplts map[string]*template.Template, storage CarStorage) {
 
-	homeHandler := handlers.NewHomeHandler(logger, homeUC, tmplts)
-	carHandler := handlers.NewCarHandler(logger, carUC, tmplts)
+	homeHandler := handlers.NewHomeHandler(logger, tmplts, storage)
+	carHandler := handlers.NewCarHandler(logger, tmplts, storage)
+	catalogHandler := handlers.NewCatalogHandler(logger, tmplts, storage)
 
 	mux.HandleFunc("GET /{$}", homeHandler.Index)
 	mux.HandleFunc("GET /catalog/{id}", carHandler.Index)
+	mux.HandleFunc("GET /catalog", catalogHandler.Index)
 
 	// Load static
 	fs := http.FileServer(http.Dir("./static"))

@@ -20,7 +20,7 @@ type HomeHandler struct {
 	tmplts map[string]*template.Template
 }
 
-func NewHomeHandler(log *slog.Logger, uc HomeUsecase, tmplts map[string]*template.Template) *HomeHandler {
+func NewHomeHandler(log *slog.Logger, tmplts map[string]*template.Template, uc HomeUsecase) *HomeHandler {
 	return &HomeHandler{
 		log:    log,
 		uc:     uc,

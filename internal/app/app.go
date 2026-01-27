@@ -68,7 +68,7 @@ func (app *App) Run() error {
 	}
 
 	// Router -> Transport layer
-	router := httpserver.NewRouter(app.log, templates, carStore, carStore)
+	router := httpserver.NewRouter(app.log, templates, carStore)
 
 	// Server
 	// TODO: maybe move to pkg as well.

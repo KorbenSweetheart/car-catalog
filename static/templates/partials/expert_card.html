@@ -1,0 +1,30 @@
+{{define "expert_card"}}
+<div class="expert-card">
+    <div class="expert-header">
+        <img src="{{.ImageURL}}" alt="{{.Name}}" class="expert-avatar">
+        <div class="expert-info">
+            <h3>{{.Name}}</h3>
+            <p>{{.Title}}</p>
+            <p class="expert-location">{{.Location}}</p>
+        </div>
+    </div>
+    
+    <div class="expert-divider"></div>
+    
+    <div class="expert-languages">
+        🇬🇧 🇫🇮
+    </div>
+
+    <ul class="expert-contacts">
+        <li>
+            <span>✉️</span> <a href="mailto:{{.Email}}">{{.Email}}</a>
+        </li>
+        <li>
+            <span>📞</span> <a href="tel:{{.Phone}}">{{.Phone}}</a>
+        </li>
+        <li class="whatsapp-link">
+            <span>💬</span> <a href="https://wa.me/{{.Phone}}">WhatsApp</a>
+        </li>
+    </ul>
+</div>
+{{end}}

@@ -42,6 +42,8 @@
     </div>
 </section>
 
+{{template "popular_body_type" .}}
+
 <section class="container grid-section">
     <div class="section-header">
         <div>
@@ -51,7 +53,9 @@
         <a href="/catalog" class="card-link" style="font-size: 1rem;">See more &rarr;</a>
     </div>
 
-    {{template "card_grid" .PopularCars}}
+    <div class="grid grid-4">
+        {{template "card_list" .PopularCars}}
+    </div>
 </section>
 
 <section class="container grid-section">
@@ -63,6 +67,8 @@
         <a href="/catalog" class="card-link" style="font-size: 1rem;">See more &rarr;</a>
     </div>
 
-    {{template "card_grid" .FamilyCars}}
+    <div class="grid grid-4">
+        {{template "card_list" .FamilyCars}}
+    </div>
 </section>
 {{end}}

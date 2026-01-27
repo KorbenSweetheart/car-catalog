@@ -1,0 +1,97 @@
+{{template "base" .}}
+
+{{define "content"}}
+<div class="container" style="margin-top: 40px; margin-bottom: 80px;">
+    
+    <div class="catalog-header">
+        <h1>All Vehicles</h1>
+        <p style="color: var(--gray);">{{len .Cars}} cars available</p>
+    </div>
+
+    <div class="catalog-layout">
+        
+        <aside class="catalog-sidebar">
+            <form action="/catalog" method="GET" class="filter-form">
+                
+                <div class="filter-group">
+                    <label>Manufacturer</label>
+                    <select name="manufacturer_id">
+                        <option value="">All Makes</option>
+                        {{range .Metadata.Manufacturers}}
+                            <option value="{{.ID}}" {{if eq .ID $.Filters.ManufacturerID}}selected{{end}}>
+                                {{.Name}}
+                            </option>
+                        {{end}}
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>Body Type</label>
+                    <select name="category_id">
+                        <option value="">All Types</option>
+                        {{range .Metadata.Categories}}
+                            <option value="{{.ID}}" {{if eq .ID $.Filters.CategoryID}}selected{{end}}>
+                                {{.Name}}
+                            </option>
+                        {{end}}
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>Min Year: {{.Filters.MinYear}}</label>
+                    <input type="number" name="min_year" placeholder="e.g. 2018" value="{{if .Filters.MinYear}}{{.Filters.MinYear}}{{end}}">
+                </div>
+
+                <div class="filter-group">
+                    <label>Min Power (hp)</label>
+                    <input type="number" name="min_hp" placeholder="e.g. 150" value="{{if .Filters.MinHP}}{{.Filters.MinHP}}{{end}}">
+                </div>
+
+                <div class="filter-group">
+                    <label>Transmission</label>
+                    <select name="transmission">
+                        <option value="">Any</option>
+                        {{range .Metadata.Transmissions}}
+                            <option value="{{.}}" {{if eq . $.Filters.Transmission}}selected{{end}}>
+                                {{.}}
+                            </option>
+                        {{end}}
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label>Drive Type</label>
+                    <select name="drivetrain">
+                        <option value="">Any</option>
+                        {{range .Metadata.Drivetrains}}
+                            <option value="{{.}}" {{if eq . $.Filters.Drivetrain}}selected{{end}}>
+                                {{.}}
+                            </option>
+                        {{end}}
+                    </select>
+                </div>
+
+                <div class="filter-actions">
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Apply Filters</button>
+                    <a href="/catalog" class="btn btn-secondary" style="width: 100%; justify-content: center;">Reset</a>
+                </div>
+
+            </form>
+        </aside>
+
+        <main class="catalog-grid">
+            {{if .Cars}}
+                <div class="grid grid-4">
+                    {{template "card_list" .Cars}}
+                </div>
+            {{else}}
+                <div class="empty-state">
+                    <h3>No cars found 😔</h3>
+                    <p>Try adjusting your filters.</p>
+                </div>
+            {{end}}
+        </main>
+
+    </div>
+</div>
+{{end}}
