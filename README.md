@@ -5,13 +5,14 @@ A website that showcases information about different car models, their specifica
 Mandatory:
 [x] Catalog page
 [x] Advanced filtering with different search options.
+[x] Display manufacturer info on a car page
+[x] Add car search
+[ ] Add a proper 404 errors handling (DRY)
 [ ] Comparison of different car models in terms of features and specifications.
 [ ] Add maintainance page with F1 car on pitstop
-[ ] Add car search
 [ ] Implement recommendations based on the visited cars
-[ ] Display manufacturer info on a car page
-[ ] Absence of 404 errors
 [ ] Implements other features that aren't listed in the bonus part.
+[ ] maybe we have to swap Transmission and Gearbox, so transmission will display native data, and gearbox would be used to filter, and not displayed on a page
 
 TODO:
 [x] Add Popular body types for homepage
@@ -19,6 +20,9 @@ TODO:
 [ ] refactor CSS
 [ ] Add favicon
 [ ] Replace the icons on popular body types
+[ ] Add randomly generated mileage and car price for a single car handler
+[ ] sort manufacturers in filters
+[x] implement a hamburger menu for mobile devices
 
 Maybe:
 [ ] Put everyting in Docker

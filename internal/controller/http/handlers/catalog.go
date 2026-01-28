@@ -38,6 +38,7 @@ func (h *CatalogHandler) Index(w http.ResponseWriter, r *http.Request) {
 	filters := domain.FilterOptions{
 		Transmission: q.Get("transmission"),
 		Drivetrain:   q.Get("drivetrain"),
+		SearchQuery:  q.Get("q"),
 	}
 
 	// Helper to safely parse integers (defaults to 0 if empty/invalid)

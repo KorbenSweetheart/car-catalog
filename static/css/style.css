@@ -1,14 +1,14 @@
 :root {
     /* Brand Colors */
-    --primary: #e60000;       /* Saka Red */
-    --primary-dark: #b91c1c;  /* Darker Red for hover */
-    --primary-light: #fff1f2; /* Light Red Tint (New, for single page hero bg) */
+    --primary: #e60000;
+    --primary-dark: #b91c1c;
+    --primary-light: #fff1f2;
     
     /* Neutrals */
-    --dark: #111827;          /* Almost Black */
-    --gray: #6b7280;          /* Muted Text */
-    --light-gray: #e5e7eb;    /* Borders */
-    --light: #f9fafb;         /* Page Background */
+    --dark: #111827;
+    --gray: #6b7280;
+    --light-gray: #e5e7eb;
+    --light: #f9fafb;
     --white: #ffffff;
 
     /* Dimensions */
@@ -31,8 +31,13 @@ a { text-decoration: none; color: inherit; transition: 0.2s; }
 ul { list-style: none; }
 img { max-width: 100%; display: block; }
 
-/* Layout */
-.container { max-width: var(--container-width); margin: 0 auto; padding: 0 24px; }
+/* --- LAYOUT BASICS --- */
+
+.container { 
+    max-width: var(--container-width); 
+    margin: 0 auto; 
+    padding: 0 24px; 
+}
 .main-content { flex: 1; }
 .block { display: block; }
 
@@ -46,10 +51,27 @@ img { max-width: 100%; display: block; }
     box-shadow: 0 4px 20px rgba(0,0,0,0.05);
     display: flex; align-items: center;
 }
-.navbar-inner { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+
+.navbar-inner { 
+    display: flex; 
+    align-items: center; 
+    position: relative; /* Essential for mobile menu absolute positioning */
+    width: 100%;
+}
+
 .logo { font-size: 28px; font-weight: 900; letter-spacing: -1.5px; color: var(--primary); }
 .logo span { color: var(--dark); }
-.nav-links { display: flex; gap: 32px; font-weight: 600; font-size: 15px; }
+
+/* Navigation Links - Centered */
+.nav-links { 
+    display: flex; 
+    gap: 32px; 
+    font-weight: 600; 
+    font-size: 15px;
+    /* This pushes the logo left and search right, keeping links in center */
+    margin-left: auto; 
+    margin-right: auto;
+}
 .nav-links a:hover { color: var(--primary); }
 
 /* 2. Buttons */
@@ -65,7 +87,6 @@ img { max-width: 100%; display: block; }
 }
 .btn-primary:hover { background-color: var(--primary-dark); transform: translateY(-1px); }
 
-/* New Secondary Button (Outline style for Single Page) */
 .btn-secondary {
     background-color: var(--white);
     color: var(--dark);
@@ -81,29 +102,18 @@ img { max-width: 100%; display: block; }
 .hero {
     position: relative;
     height: 560px;
-    display: flex; 
-    align-items: center; 
-    justify-content: center;
-    color: var(--white); 
-    text-align: center;
-    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--white); text-align: center; overflow: hidden;
 }
-
 .hero-video-wrapper {
-    position: absolute; top: 0; left: 0; 
-    width: 100%; height: 100%; z-index: 0;
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;
 }
-.hero-video {
-    width: 100%; height: 100%; object-fit: cover;
-}
+.hero-video { width: 100%; height: 100%; object-fit: cover; }
 .hero-overlay {
-    position: absolute; top: 0; left: 0;
-    width: 100%; height: 100%;
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
     background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.6));
 }
-.hero-content {
-    position: relative; z-index: 10; max-width: 700px;
-}
+.hero-content { position: relative; z-index: 10; max-width: 700px; }
 .hero h1 { 
     font-size: 3.5rem; font-weight: 800; line-height: 1.1; margin-bottom: 24px; 
     text-shadow: 0 2px 20px rgba(0,0,0,0.5);
@@ -113,7 +123,7 @@ img { max-width: 100%; display: block; }
     text-shadow: 0 2px 10px rgba(0,0,0,0.5);
 }
 
-/* 4. Search Bar */
+/* 4. Search Bar (Home Hero) */
 .search-form {
     background: var(--white); padding: 8px; border-radius: var(--radius-pill);
     display: flex; width: 100%; box-shadow: 0 10px 40px rgba(0,0,0,0.2);
@@ -137,7 +147,6 @@ img { max-width: 100%; display: block; }
 .grid-section { padding: 80px 0; }
 .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; }
 .section-header h2 { font-size: 2.5rem; font-weight: 800; line-height: 1; }
-/* .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 32px; } */
 
 /* 7. Car Card (Catalog) */
 .card {
@@ -159,7 +168,6 @@ img { max-width: 100%; display: block; }
 .card-title { font-size: 1.125rem; font-weight: 800; margin-bottom: 4px; line-height: 1.3; }
 .card-trim { font-size: 0.875rem; color: var(--gray); margin-bottom: 16px; }
 
-/* Specs Grid (Catalog) */
 .card-specs {
     display: grid; grid-template-columns: 1fr 1fr; gap: 12px; 
     margin-bottom: 20px; font-size: 0.85rem; color: var(--gray); font-weight: 500;
@@ -167,7 +175,6 @@ img { max-width: 100%; display: block; }
 .card-specs span { display: flex; align-items: center; gap: 6px; }
 .card-specs svg { width: 18px; height: 18px; color: #9ca3af; }
 
-/* Footer & Contact Button (Catalog) */
 .card-footer { margin-top: auto; padding-top: 16px; border-top: 1px solid #f3f4f6; }
 .card-contact-btn {
     width: 100%; background: var(--primary); color: white;
@@ -209,35 +216,75 @@ img { max-width: 100%; display: block; }
 }
 
 /* =========================================
-   SINGLE CAR PAGE STYLES
+   NAVBAR SEARCH (The "Pill" Style)
    ========================================= */
 
-/* Layout Container */
+.nav-search-form {
+    display: flex;
+    align-items: center;
+    background-color: #f3f4f6;
+    padding: 4px;
+    padding-left: 16px;
+    border-radius: 99px;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+    width: auto;
+    
+    /* Pushes to right (since links are centered) */
+    margin-left: 0; 
+}
+
+.nav-search-form:focus-within {
+    background-color: var(--white);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(230, 0, 0, 0.1);
+}
+
+.nav-search-form input {
+    border: none; background: transparent;
+    font-size: 0.95rem; color: var(--dark); outline: none;
+    width: 180px; font-family: inherit; font-weight: 500;
+}
+.nav-search-form input::placeholder { color: #9ca3af; }
+
+.nav-search-form button {
+    background-color: var(--primary); color: var(--white);
+    border: none; width: 36px; height: 36px; border-radius: 50%;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: background-color 0.2s, transform 0.1s;
+    margin-left: 8px;
+}
+.nav-search-form button:hover { background-color: var(--primary-dark); transform: scale(1.05); }
+.nav-search-form button:active { transform: scale(0.95); }
+
+/* =========================================
+   SINGLE CAR PAGE STYLES (TOP SECTION)
+   ========================================= */
+
 .car-container {
     display: grid;
-    grid-template-columns: 1.5fr 1fr; /* Image 60%, Info 40% */
+    /* Fixed 340px sidebar, rest for image. Matches bottom layout. */
+    grid-template-columns: 1fr 340px; 
     gap: 32px;
     max-width: var(--container-width);
     margin: 40px auto;
-    padding: 0 24px;
+    
+    /* PADDING IS KEY HERE: Must match global container */
+    padding: 0 24px; 
     align-items: start;
 }
 
-/* LEFT COLUMN: Hero Image */
 .car-hero {
     position: relative;
     border-radius: var(--radius-lg);
     overflow: hidden;
-    background-color: var(--primary-light); /* Changed to Red Tint */
+    background-color: var(--primary-light);
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
-.hero-image {
-    width: 100%; height: auto; display: block;
-    object-fit: cover; aspect-ratio: 4/3;
-}
+figure.hero-figure { margin: 0; padding: 0; width: 100%; }
+.hero-image { width: 100%; height: auto; display: block; object-fit: cover; aspect-ratio: 4/3; }
 
-/* Back Button Overlay */
 .back-pill {
     position: absolute; top: 20px; left: 20px;
     background: var(--white); padding: 8px 16px; border-radius: 20px;
@@ -245,377 +292,350 @@ img { max-width: 100%; display: block; }
     font-weight: 600; font-size: 0.9rem;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     transition: transform 0.2s;
+    z-index: 10;
 }
 .back-pill:hover { transform: translateY(-2px); }
 
-/* RIGHT COLUMN: Details Card */
 .car-details-card {
     background: var(--white);
     padding: 32px;
     border-radius: var(--radius-lg);
     box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    width: 100%;
+    max-width: none; 
+    min-width: 340px;
 }
 
 .details-header { margin-bottom: 32px; }
-.details-header h1 {
-    font-size: 1.8rem; margin: 0 0 0.5rem 0; color: var(--dark);
-}
+.details-header h1 { font-size: 1.8rem; margin: 0 0 0.5rem 0; color: var(--dark); }
 .subtitle { color: var(--gray); margin: 0; font-size: 1rem; }
 
-/* Specs Grid System (Single Page) */
+/* Specs Grid (Sidebar) */
 .specs-grid {
     display: grid; grid-template-columns: 1fr 1fr;
     gap: 24px 16px; margin-bottom: 32px;
 }
 .spec-item { display: flex; flex-direction: column; }
-.spec-item .label {
-    font-size: 0.85rem; font-weight: 600; color: var(--dark); margin-bottom: 4px;
+.spec-item dt.label, .spec-item .label {
+    font-size: 1rem; font-weight: 600; color: var(--dark); margin-bottom: 4px; display: block;
 }
-.spec-item .value { font-size: 0.95rem; color: var(--gray); }
-
-/* Footer Section */
-.delivery-note {
-    font-size: 0.8rem; color: var(--gray); margin-bottom: 24px; line-height: 1.4;
+.spec-item dd.value, .spec-item .value { 
+    font-size: 1rem; color: var(--gray); margin: 0; 
 }
 
+.delivery-note { font-size: 0.8rem; color: var(--gray); margin-bottom: 24px; line-height: 1.4; }
 .actions { display: flex; flex-direction: column; gap: 16px; }
-
-/* Force buttons in the details card to be full width without breaking navbar buttons */
 .actions .btn { width: 100%; }
 
-/* Mobile Responsiveness */
+/* =========================================
+   SINGLE CAR: SPLIT SPECS LAYOUT (BOTTOM SECTION)
+   ========================================= */
+
+.specs-section {
+    margin-top: 60px;
+    margin-bottom: 80px;
+    
+    width: 100%;
+    max-width: var(--container-width);
+    margin-left: auto;
+    margin-right: auto;
+    
+    /* PADDING IS KEY HERE: Must match top section */
+    padding: 0 24px; 
+}
+
+.specs-layout {
+    display: grid;
+    /* Matches Top Section Layout */
+    grid-template-columns: 1fr 340px; 
+    gap: 60px; 
+    align-items: start;
+}
+
+/* Left Side: Car Info */
+.specs-header { margin-bottom: 32px; }
+.tab-title {
+    font-size: 0.95rem; font-weight: 600;
+    padding: 12px 24px;
+    background-color: var(--dark);
+    color: var(--white);
+    border-radius: 99px;
+    display: inline-block;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.specs-main .specs-grid {
+    display: grid;
+    grid-template-columns: repeat(4, auto); 
+    justify-content: start; 
+    column-gap: 64px;
+    row-gap: 32px;
+}
+
+.spec-item dt { font-size: 1rem; font-weight: 800; color: var(--dark); }
+.spec-item dd { 
+    font-size: 1rem; font-weight: 400; color: #4b5563; 
+    margin: 0; white-space: nowrap; 
+}
+
+/* Right Side: Manufacturer Card */
+.manufacturer-card {
+    background-color: #f3f4f6; 
+    padding: 32px;
+    border-radius: 24px; 
+    border: 1px solid var(--light-gray);
+}
+
+.manu-header {
+    margin-bottom: 24px; padding-bottom: 16px;
+    border-bottom: 2px solid rgba(0,0,0,0.05);
+}
+.manu-header h3 { font-size: 1.1rem; font-weight: 900; color: var(--dark); margin: 0; }
+
+.manu-grid { display: flex; flex-direction: column; gap: 16px; }
+.manu-item { display: flex; justify-content: space-between; align-items: center; }
+.manu-item dt { font-size: 1rem; font-weight: 600; color: var(--gray); }
+.manu-item dd { font-size: 1rem; font-weight: 800; color: var(--dark); margin: 0; text-align: right; }
+.manu-divider { height: 1px; background-color: rgba(0,0,0,0.05); width: 100%; }
+
+/* --- GLOBAL RESPONSIVE --- */
+
+@media (max-width: 1100px) {
+    /* Align Top and Bottom Layouts */
+    .car-container, .specs-layout {
+        grid-template-columns: 1fr 320px;
+        gap: 40px;
+    }
+    
+    /* Tighten grids */
+    .specs-main .specs-grid { column-gap: 32px; }
+    
+    /* Shrink search */
+    .nav-search-form input { width: 140px; }
+}
+
+@media (max-width: 900px) {
+    /* STACK EVERYTHING VERTICALLY */
+    .car-container { grid-template-columns: 1fr; gap: 32px; }
+    .car-details-card { max-width: 100%; }
+
+    .specs-layout { grid-template-columns: 1fr; gap: 40px; }
+    .manufacturer-card { width: 100%; }
+    
+    /* Let grid fill width */
+    .specs-main .specs-grid {
+        grid-template-columns: repeat(2, 1fr);
+        justify-content: stretch;
+    }
+    
+    /* MOBILE NAV SEARCH POSITION */
+    .nav-search-form {
+        order: 2; /* Sit between Logo and Hamburger */
+        margin-left: auto; 
+        margin-right: 16px;
+    }
+    .nav-search-form input { width: 110px; font-size: 0.9rem; }
+    .nav-search-form button { width: 32px; height: 32px; }
+    
+    /* RESET menu positioning */
+    .nav-links { margin: 0; } 
+}
+
 @media (max-width: 768px) {
-    /* Main Layout */
     .grid { grid-template-columns: 1fr; }
     .trust-grid { grid-template-columns: 1fr; }
     .footer-grid { grid-template-columns: 1fr; gap: 32px; }
     
-    /* Single Car Page Layout */
-    .car-container { grid-template-columns: 1fr; margin: 24px auto; }
+    /* Force 1 column for car specs on small phones */
+    .specs-main .specs-grid { grid-template-columns: 1fr; }
 }
 
-/* Standard Grid (Default - fits whatever it can) */
-.grid { 
-    display: grid; 
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
-    gap: 32px; 
+@media (max-width: 400px) {
+    .nav-search-form input { width: 80px; padding-left: 4px; }
+    .nav-search-form { padding-left: 8px; }
 }
 
-/* Force 4 Columns (Tighter items, good for Home/Popular) */
-.grid-4 {
-    /* Lower the min-width so 4 items fit on standard screens */
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); 
-}
-
-/* Force 3 Columns (Wider items, good for Catalog details) */
-.grid-3 {
-    /* Increase min-width so only 3 fit */
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-}
-
-/* Mobile override: Always 1 column on phones regardless of the class above */
-@media (max-width: 768px) {
-    .grid, .grid-3, .grid-4 {
-        grid-template-columns: 1fr; 
-    }
-}
+/* Standard Grids */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 32px; }
+.grid-4 { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+.grid-3 { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
 
 /* =========================================
-            CONTACTS COMPONENT
-*/
-
-.expert-card {
-    background: var(--white);
-    border-radius: 24px; /* Extra rounded as per screenshot */
-    padding: 24px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.04);
-    border: 1px solid var(--light-gray);
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.2s;
-}
-
-.expert-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-}
-
-/* Header: Avatar + Info side-by-side */
-.expert-header {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 20px;
-}
-
-.expert-avatar {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid var(--light);
-}
-
-.expert-info h3 {
-    font-size: 1rem;
-    font-weight: 800;
-    color: var(--dark);
-    margin-bottom: 2px;
-}
-
-.expert-info p {
-    font-size: 0.85rem;
-    color: var(--gray);
-    margin: 0;
-    line-height: 1.3;
-}
-
-.expert-divider {
-    height: 1px;
-    background-color: var(--light-gray);
-    margin-bottom: 16px;
-    width: 100%;
-}
-
-/* Languages */
-.expert-languages {
-    font-size: 1.2rem;
-    margin-bottom: 16px;
-}
-
-/* Contact List */
-.expert-contacts {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.expert-contacts li {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 0.85rem;
-    color: var(--dark);
-    font-weight: 500;
-}
-
-.expert-contacts li span {
-    font-size: 1.1rem;
-}
-
-.expert-contacts a:hover {
-    text-decoration: underline;
-    color: var(--primary);
-}
-
-/* WhatsApp Specific Style */
-.whatsapp-link {
-    color: #25D366 !important; /* WhatsApp Green */
-    font-weight: 700 !important;
-}
-.whatsapp-link a {
-    color: #25D366;
-    text-decoration: none;
-}
-
-/* =========================================
-            CATALOG COMPONENT
-*/
-
-/* Catalog Layout */
-.catalog-header {
-    margin-bottom: 32px;
-}
-
-.catalog-layout {
-    display: grid;
-    grid-template-columns: 260px 1fr; /* Sidebar fixed width, Grid takes rest */
-    gap: 48px;
-    align-items: start;
-}
-
-/* Sidebar Styling */
-.catalog-sidebar {
-    background: var(--white);
-    padding: 24px;
-    border-radius: 16px;
-    border: 1px solid var(--light-gray);
-    position: sticky;
-    top: 100px; /* Sticks when scrolling */
-}
-
-.filter-group {
-    margin-bottom: 20px;
-}
-
-.filter-group label {
-    display: block;
-    font-size: 0.9rem;
-    font-weight: 700;
-    margin-bottom: 8px;
-    color: var(--dark);
-}
-
-.filter-group select,
-.filter-group input {
-    width: 100%;
-    padding: 10px 12px;
-    border: 1px solid var(--light-gray);
-    border-radius: 8px;
-    font-size: 0.95rem;
-    background-color: var(--light);
-}
-
-.filter-actions {
-    margin-top: 32px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.empty-state {
-    text-align: center;
-    padding: 60px;
-    background: var(--white);
-    border-radius: 16px;
-    border: 1px dashed var(--light-gray);
-}
-
-/* Mobile Catalog */
-@media (max-width: 850px) {
-    .catalog-layout {
-        grid-template-columns: 1fr; /* Stack Sidebar on top */
-        gap: 32px;
-    }
-    
-    .catalog-sidebar {
-        position: relative; /* Unstick on mobile */
-        top: 0;
-    }
-}
-
-/* =========================================
-   EXPLORER SECTION (Popular body types)
+   NAVBAR & HAMBURGER MENU (CSS ONLY)
    ========================================= */
 
-/* The full-width grey background */
-.explorer-section {
-    background-color: var(--light); /* Matches the reference image background */
-    padding: 80px 0;
-    margin: 60px 0;
-    overflow: hidden; /* Ensures the large car image doesn't break layout */
+/* 1. Base Styles (Desktop) */
+.nav-toggle, .nav-toggle-label { display: none; }
+
+/* 2. Mobile Logic */
+@media (max-width: 900px) {
+    /* Show Hamburger */
+    .nav-toggle-label {
+        display: flex; flex-direction: column; gap: 5px;
+        cursor: pointer; order: 3; margin-left: 20px; z-index: 100;
+    }
+    .nav-toggle-label span {
+        width: 28px; height: 3px; background-color: var(--dark);
+        border-radius: 2px; transition: 0.3s;
+    }
+
+    /* Hide Menu by Default */
+    .nav-links {
+        display: none; 
+        width: 100%; flex-direction: column; order: 4;
+        position: absolute; top: 100%; left: 0;
+        background-color: var(--white); border-top: 1px solid var(--light-gray);
+        padding: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    .nav-links a {
+        padding: 12px 0; font-size: 1.1rem; border-bottom: 1px solid var(--light); text-align: center;
+    }
+
+    /* Show Menu when Checked */
+    .nav-toggle:checked ~ .nav-links { display: flex; }
+
+    /* Animation */
+    .nav-toggle:checked + .nav-toggle-label span:nth-child(1) { transform: rotate(45deg) translate(5px, 6px); }
+    .nav-toggle:checked + .nav-toggle-label span:nth-child(2) { opacity: 0; }
+    .nav-toggle:checked + .nav-toggle-label span:nth-child(3) { transform: rotate(-45deg) translate(5px, -6px); }
 }
 
-/* The container for side-by-side layout */
-.explorer-layout {
-    display: flex;
-    align-items: center;
-    gap: 60px;
+/* =========================================
+   OTHER COMPONENTS (Contacts, Catalog, Explorer)
+   ========================================= */
+/* ... (Same as before) ... */
+
+.expert-card {
+    background: var(--white); border-radius: 24px; padding: 24px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.04); border: 1px solid var(--light-gray);
+    display: flex; flex-direction: column; transition: transform 0.2s;
+}
+.expert-card:hover { transform: translateY(-4px); box-shadow: 0 10px 25px rgba(0,0,0,0.08); }
+.expert-header { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
+.expert-avatar { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; border: 2px solid var(--light); }
+.expert-info h3 { font-size: 1rem; font-weight: 800; color: var(--dark); margin-bottom: 2px; }
+.expert-info p { font-size: 0.85rem; color: var(--gray); margin: 0; line-height: 1.3; }
+.expert-divider { height: 1px; background-color: var(--light-gray); margin-bottom: 16px; width: 100%; }
+.expert-languages { font-size: 1.2rem; margin-bottom: 16px; }
+.expert-contacts { display: flex; flex-direction: column; gap: 10px; }
+.expert-contacts li { display: flex; align-items: center; gap: 10px; font-size: 0.85rem; color: var(--dark); font-weight: 500; }
+.expert-contacts li span { font-size: 1.1rem; }
+.expert-contacts a:hover { text-decoration: underline; color: var(--primary); }
+.whatsapp-link { color: #25D366 !important; font-weight: 700 !important; }
+.whatsapp-link a { color: #25D366; text-decoration: none; }
+
+.catalog-header { margin-bottom: 32px; }
+.catalog-layout { display: grid; grid-template-columns: 260px 1fr; gap: 48px; align-items: start; }
+.catalog-sidebar {
+    background: var(--white); padding: 24px; border-radius: 16px; border: 1px solid var(--light-gray);
+    position: sticky; top: 100px;
+}
+.filter-group { margin-bottom: 20px; }
+.filter-group label { display: block; font-size: 0.9rem; font-weight: 700; margin-bottom: 8px; color: var(--dark); }
+.filter-group select, .filter-group input {
+    width: 100%; padding: 10px 12px; border: 1px solid var(--light-gray); border-radius: 8px; font-size: 0.95rem; background-color: var(--light);
+}
+.filter-actions { margin-top: 32px; display: flex; flex-direction: column; gap: 12px; }
+.empty-state { text-align: center; padding: 60px; background: var(--white); border-radius: 16px; border: 1px dashed var(--light-gray); }
+@media (max-width: 850px) {
+    .catalog-layout { grid-template-columns: 1fr; gap: 32px; }
+    .catalog-sidebar { position: relative; top: 0; }
 }
 
-/* Left Column: Image container */
-.explorer-image-container {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.explorer-feature-car {
-    width: 100%;
-    max-width: 600px;
-    height: auto;
-    object-fit: contain;
-    /* Optional: slight overlap effect if the image allows */
-    transform: scale(1.1); 
-}
-
-/* Right Column: Content container */
-.explorer-content {
-    flex: 1;
-}
-
-.explorer-content h2 {
-    font-size: 2rem;
-    font-weight: 900;
-    margin-bottom: 32px;
-    color: var(--dark);
-}
-
-/* The 2x2 Grid */
-.explorer-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-}
-
-/* The individual cards */
+.explorer-section { background-color: var(--light); padding: 80px 0; margin: 60px 0; overflow: hidden; }
+.explorer-layout { display: flex; align-items: center; gap: 60px; }
+.explorer-image-container { flex: 1; display: flex; justify-content: center; align-items: center; }
+.explorer-feature-car { width: 100%; max-width: 600px; height: auto; object-fit: contain; transform: scale(1.1); }
+.explorer-content { flex: 1; }
+.explorer-content h2 { font-size: 2rem; font-weight: 900; margin-bottom: 32px; color: var(--dark); }
+.explorer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
 .explorer-card {
-    background: var(--white);
-    border-radius: 32px; /* Very rounded corners as per design */
-    padding: 40px 24px;
-    text-align: center;
-    text-decoration: none;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
-    transition: all 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    background: var(--white); border-radius: 32px; padding: 40px 24px;
+    text-align: center; text-decoration: none; box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+    transition: all 0.3s ease; display: flex; flex-direction: column; align-items: center; justify-content: center;
 }
-
-.explorer-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
-}
-
-/* The colored circle wrapper */
+.explorer-card:hover { transform: translateY(-8px); box-shadow: 0 12px 30px rgba(0,0,0,0.08); }
 .icon-wrapper {
-    width: 80px;
-    height: 80px;
-    background-color: var(--primary); /* Red Background */
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
+    width: 80px; height: 80px; background-color: var(--primary); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; margin-bottom: 20px;
     box-shadow: 0 4px 15px rgba(218, 41, 28, 0.3);
 }
-
-/* NEW: Style the Image instead of SVG */
-.icon-wrapper img {
-    width: 40px;
-    height: 40px;
-    object-fit: contain;
-    
-    /* THE TRICK: This forces any color icon (like black) to become pure white */
-    filter: brightness(0) invert(1); 
-}
-
-.explorer-card span {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--dark);
-}
-
-/* Responsive Design */
+.icon-wrapper img { width: 40px; height: 40px; object-fit: contain; filter: brightness(0) invert(1); }
+.explorer-card span { font-size: 1.1rem; font-weight: 700; color: var(--dark); }
 @media (max-width: 900px) {
-    .explorer-layout {
+    .explorer-layout { flex-direction: column; text-align: center; gap: 40px; }
+    .explorer-image-container { order: -1; }
+    .explorer-feature-car { transform: scale(1); max-width: 100%; }
+    .explorer-content h2 { font-size: 1.75rem; }
+}
+
+.section-subtitle { color: var(--gray); margin-top: 8px; margin-bottom: 0; }
+.view-all-link { font-size: 1rem; }
+
+/* =========================================
+   404 ERROR PAGE
+   ========================================= */
+
+.error-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 24px;
+    text-align: center;
+}
+
+.error-content {
+    max-width: 600px;
+    width: 100%;
+}
+
+.error-image-wrapper {
+    margin: 0 auto 32px;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    border: 1px solid var(--light-gray);
+}
+
+.error-img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.error-title {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: var(--primary);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+}
+
+.error-subtitle {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--dark);
+    margin-bottom: 16px;
+}
+
+.error-text {
+    font-size: 1.1rem;
+    color: var(--gray);
+    margin-bottom: 32px;
+    line-height: 1.6;
+}
+
+.error-actions {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
+
+/* Mobile Stack for Buttons */
+@media (max-width: 500px) {
+    .error-actions {
         flex-direction: column;
-        text-align: center;
-        gap: 40px;
-    }
-
-    .explorer-image-container {
-        order: -1; /* Keep image on top */
-    }
-    
-    .explorer-feature-car {
-         transform: scale(1);
-         max-width: 100%;
-    }
-
-    .explorer-content h2 {
-        font-size: 1.75rem;
     }
 }

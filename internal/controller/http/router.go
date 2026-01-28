@@ -44,20 +44,17 @@ func addRoutes(mux *http.ServeMux, logger *slog.Logger, tmplts map[string]*templ
 	homeHandler := handlers.NewHomeHandler(logger, tmplts, storage)
 	carHandler := handlers.NewCarHandler(logger, tmplts, storage)
 	catalogHandler := handlers.NewCatalogHandler(logger, tmplts, storage)
+	notFoundHandler := handlers.NewSystemHandler(logger, tmplts)
 
 	mux.HandleFunc("GET /{$}", homeHandler.Index)
 	mux.HandleFunc("GET /catalog/{id}", carHandler.Index)
 	mux.HandleFunc("GET /catalog", catalogHandler.Index)
+	mux.HandleFunc("/", notFoundHandler.NotFound)
 
 	// Load static
 	fs := http.FileServer(http.Dir("./static"))
 	mux.Handle("GET /static/", http.StripPrefix("/static/", fs))
 
-	// Page handlers
-	// mux.Handle("GET /{$}", handlers.HandleHome(logger, tmplts)) // handle must return http.Handler
-	// mux.Handle("GET /", handlers.HandleNotFound(logger, tmplts))
-
 	// Action handlers
-	// mux.Handle("POST /decoder", handlers.HandleDecoder(logger, proc, tmplts))
 	// mux.Handle("POST /encoder", handlers.HandleEncoder(logger, proc, tmplts))
 }

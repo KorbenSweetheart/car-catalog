@@ -3,6 +3,7 @@ package carstore
 import (
 	"context"
 	"log/slog"
+	"strings"
 
 	"gitea.kood.tech/ivanandreev/viewer/internal/domain"
 	"gitea.kood.tech/ivanandreev/viewer/internal/lib/e"
@@ -57,6 +58,14 @@ func (s *CarStore) filterCars(allCars []domain.Car, f domain.FilterOptions) []do
 		// 6. Drivetrain
 		if f.Drivetrain != "" && car.Specs.Drivetrain != f.Drivetrain {
 			continue
+		}
+		// 7. Text Search
+		if f.SearchQuery != "" {
+			matchName := strings.Contains(strings.ToLower(car.Name), strings.ToLower(f.SearchQuery))
+
+			if !matchName {
+				continue
+			}
 		}
 
 		filtered = append(filtered, car)

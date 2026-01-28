@@ -43,6 +43,7 @@ type FilterOptions struct {
 	MinHP          int
 	Transmission   string
 	Drivetrain     string
+	SearchQuery    string
 }
 
 type Metadata struct {

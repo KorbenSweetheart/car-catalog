@@ -7,38 +7,40 @@ import (
 	"net/http"
 )
 
-const page = "404.html"
+type SystemHandler struct {
+	log    *slog.Logger
+	tmplts map[string]*template.Template
+}
 
-func HandleNotFound(log *slog.Logger, tmplts map[string]*template.Template) http.Handler {
-	const op = "handlers.404.handle.NotFound"
+func NewSystemHandler(log *slog.Logger, tmplts map[string]*template.Template) *SystemHandler {
+	return &SystemHandler{
+		log:    log,
+		tmplts: tmplts,
+	}
+}
 
-	log = log.With(
-		slog.String("op", op),
-	)
+func (h *SystemHandler) NotFound(w http.ResponseWriter, r *http.Request) {
+	const op = "handlers.system.NotFound"
 
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	data := map[string]any{
+		"Title": "Page Not Found | RedCars",
+	}
 
-		notFoundTmpl, ok := tmplts["404"]
-		if !ok {
-			log.Error("template not found in map", "name", "404")
-			http.Error(w, "Internal Configuration Error", http.StatusInternalServerError)
-			return
-		}
+	tmpl, ok := h.tmplts["404.html"]
+	if !ok {
+		h.log.Error("template not found", "op", op, "name", "404.html")
+		http.Error(w, "404 Page Not Found", http.StatusNotFound) // Fallback text
+		return
+	}
 
-		data := map[string]string{
-			"HTTPResponse": "404: NOT FOUND",
-		}
+	var buf bytes.Buffer
+	if err := tmpl.Execute(&buf, data); err != nil {
+		h.log.Error("failed to render template", "op", op, "error", err)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
 
-		var buf bytes.Buffer
-
-		if err := notFoundTmpl.Execute(&buf, data); err != nil {
-			log.Error("failed to render template", slog.Any("error", err))
-			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-			return
-		}
-
-		w.Header().Set("Content-Type", "text/html; charset=utf-8")
-		w.WriteHeader(http.StatusOK)
-		buf.WriteTo(w)
-	})
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	w.WriteHeader(http.StatusNotFound)
+	buf.WriteTo(w)
 }

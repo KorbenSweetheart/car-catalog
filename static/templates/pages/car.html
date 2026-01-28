@@ -4,85 +4,142 @@
 <div class="car-container">
     
     <div class="car-hero">
-        <a href="/catalog" class="back-pill">← Back</a>
+        <nav aria-label="Back navigation">
+            <a href="/catalog" class="back-pill">← Back</a>
+        </nav>
         
-        <img src="{{ .Car.Image }}" alt="{{ .Car.Name }}" class="hero-image">
+        <figure class="hero-figure">
+            <img src="{{ .Car.Image }}" alt="{{ .Car.Name }}" class="hero-image">
+        </figure>
     </div>
 
-    <div class="car-details-card">
+    <aside class="car-details-card">
         
-        <div class="details-header">
+        <header class="details-header">
             <h1>{{ .Car.Name }}</h1>
-            <p class="subtitle">{{ .Car.Specs.Engine }} {{ .Car.Specs.Drivetrain }} Business</p>
-        </div>
+            <p class="subtitle">{{ .Car.Specs.Engine }} {{ .Car.Specs.Drivetrain }}</p>
+        </header>
 
-        <div class="specs-grid">
+        <dl class="specs-grid">
             
             <div class="spec-item">
-                <span class="label">Year of Manufacture</span>
-                <span class="value">{{ .Car.Year }}</span>
-            </div>
-            <div class="spec-item">
-                <span class="label">Manufacturer</span>
-                <span class="value">{{ .Car.Manufacturer.Name }}</span>
+                <dt class="label">Model year</dt>
+                <dd class="value">{{ .Car.Year }}</dd>
             </div>
 
             <div class="spec-item">
-                <span class="label">Engine</span>
-                <span class="value">{{ .Car.Specs.Engine }}</span>
-            </div>
-            <div class="spec-item">
-                <span class="label">Power (hp)</span>
-                <span class="value">{{ .Car.Specs.HP }} hp</span>
+                <dt class="label">Mileage</dt>
+                <dd class="value">176000</dd>
             </div>
 
             <div class="spec-item">
-                <span class="label">Transmission</span>
-                <span class="value">{{ .Car.Specs.Transmission }}</span>
+                <dt class="label">Transmission</dt>
+                <dd class="value">{{ .Car.Specs.Transmission }}</dd>
             </div>
+
             <div class="spec-item">
-                <span class="label">Gearbox</span>
-                <span class="value">{{ .Car.Specs.Gearbox }}</span>
+                <dt class="label">Drive Type</dt>
+                <dd class="value">{{ .Car.Specs.Drivetrain }}</dd>
             </div>
-            <div class="spec-item">
-                <span class="label">Body Type</span>
-                <span class="value">{{ .Car.Category.Name }}</span>
-            </div>
-            <div class="spec-item">
-                <span class="label">Drive Type</span>
-                <span class="value">{{ .Car.Specs.Drivetrain }}</span>
-            </div>
-        </div>
+
+        </dl>
 
         <div class="delivery-note">
             Free delivery to the nearest RedCars dealer! Home delivery €99 in mainland Finland.
         </div>
 
         <div class="actions">
-            <button class="btn btn-primary">
+            <button type="button" class="btn btn-primary">
                 Leave a contact request ✉️
             </button>
             
-            <button class="btn btn-secondary">
+            <button type="button" class="btn btn-secondary">
                 Compare ⇄
             </button>
         </div>
 
-    </div>
+    </aside>
 </div>
 
-<section class="container grid-section">
-    <div class="section-header">
-        <div>
-            <h2>Popular Cars</h2>
-            <p style="color: var(--gray); margin-top: 8px;">Most viewed cars.</p>
+<section class="specs-section">
+    
+    <div class="specs-layout">
+        
+        <div class="specs-main">
+            <header class="specs-header">
+                <h2 id="car-info-title" class="tab-title active">Car Information</h2>
+            </header>
+
+            <dl class="specs-grid" aria-labelledby="car-info-title">
+                <div class="spec-item">
+                    <dt>Body Type</dt>
+                    <dd>{{ .Car.Category.Name }}</dd>
+                </div>
+                
+                <div class="spec-item">
+                    <dt>Engine</dt>
+                    <dd>{{ .Car.Specs.Engine }}</dd>
+                </div>
+
+                <div class="spec-item">
+                    <dt>Power (hp)</dt>
+                    <dd>{{ .Car.Specs.HP }} hp</dd>
+                </div>
+
+                <div class="spec-item">
+                    <dt>Gearbox</dt>
+                    <dd>{{ .Car.Specs.Gearbox }}</dd>
+                </div>
+
+                </dl>
         </div>
-        <a href="/catalog" class="card-link" style="font-size: 1rem;">See more &rarr;</a>
+
+        <aside class="manufacturer-card" aria-labelledby="manu-info-title">
+            
+            <header class="manu-header">
+                <h3 id="manu-info-title">Manufacturer Information</h3>
+            </header>
+
+            <dl class="manu-grid">
+                
+                <div class="manu-item">
+                    <dt>Manufacturer</dt>
+                    <dd>{{ .Car.Manufacturer.Name }}</dd>
+                </div>
+                
+                <div class="manu-divider"></div>
+
+                <div class="manu-item">
+                    <dt>Country</dt>
+                    <dd>{{ .Car.Manufacturer.Country }}</dd>
+                </div>
+
+                <div class="manu-divider"></div>
+
+                <div class="manu-item">
+                    <dt>Founding year</dt>
+                    <dd>{{ .Car.Manufacturer.FoundingYear }}</dd>
+                </div>
+
+            </dl>
+        </aside>
+
     </div>
+
+</section>
+
+<section class="container grid-section" aria-labelledby="popular-heading">
+    <header class="section-header">
+        <div>
+            <h2 id="popular-heading">Popular Cars</h2>
+            <p class="section-subtitle">Most viewed cars.</p>
+        </div>
+        <a href="/catalog" class="card-link view-all-link">See more &rarr;</a>
+    </header>
 
     {{template "card_grid" .PopularCars}}
 </section>
 
-    {{template "expert_list" .Experts}}
+{{template "expert_list" .Experts}}
     
 {{end}}
