@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}}</title>
+    <link rel="icon" type="image/x-icon" href="/static/assets/favicon/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="/static/assets/favicon/favicon.ico">
+    <style>
+        /* Minimal Reset */
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        
+        /* Variables matching your main theme */
+        :root {
+            --primary: #e60000;
+            --dark: #111827;
+            --gray: #6b7280;
+            --light-bg: #f9fafb;
+        }
+
+        /* Centering Layout */
+        body {
+            background-color: var(--light-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--dark);
+        }
+
+        .maintenance-container {
+            /* Transparent bg to match the open feel of the 404 page */
+            background: transparent; 
+            padding: 20px;
+            max-width: 700px;
+            width: 90%;
+        }
+
+        /* Logo Styling */
+        .logo { 
+            font-size: 28px; 
+            font-weight: 900; 
+            letter-spacing: -1.5px; 
+            color: var(--primary); 
+            margin: 0 0 40px 0; /* Space below logo */
+            display: inline-block;
+        }
+        .logo span { color: var(--dark); }
+
+        /* Image Styling */
+        .maintenance-image {
+            width: 100%;
+            max-width: 100%; 
+            height: auto;
+            border-radius: 12px;
+            margin: 0 auto 30px auto;
+            display: block;
+        }
+
+        /* Typography matches 404 hierarchy */
+        .error-title {
+            font-size: 2.25rem; /* Big Red Text */
+            font-weight: 900;
+            color: var(--primary);
+            margin: 0 0 10px 0;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+            line-height: 1.1;
+        }
+
+        .error-text {
+            font-size: 1rem;
+            color: var(--gray);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        /* Minimal Footer Note */
+        .footer-note {
+            font-size: 0.85rem;
+            color: #9ca3af;
+            margin-top: 40px;
+            border-top: 1px solid #e5e7eb;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="maintenance-container">
+        <div class="logo">RED<span>CARS</span></div>
+
+        <img src="/static/assets/images/maintenance.png" alt="Under Maintenance" class="maintenance-image">
+
+        <h1 class="error-title">{{.Heading}}</h1>
+        <p class="error-text">{{.Message}}</p>
+        
+        <p class="footer-note">Please return later.</p>
+    </div>
+
+</body>
+</html>

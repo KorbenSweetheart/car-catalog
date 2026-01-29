@@ -9,12 +9,12 @@ Mandatory:
 [x] Add car search
 [x] Add a proper 404 errors handling (DRY)
 [ ] Comparison of different car models in terms of features and specifications.
-[ ] Add maintainance page with F1 car on pitstop
 [ ] Implement recommendations based on the visited cars
+[x] Add maintainance page
 [ ] Implements other features that aren't listed in the bonus part.
-[ ] maybe we have to swap Transmission and Gearbox, so transmission will display native data, and gearbox would be used to filter, and not displayed on a page
 
 TODO:
+[ ] maybe we have to swap Transmission and Gearbox, so transmission will display native data, and gearbox would be used to filter, and not displayed on a page
 [x] Add Popular body types for homepage
 [x] Replace the icons on popular body types
 [x] implement a hamburger menu for mobile devices
@@ -23,6 +23,7 @@ TODO:
 [ ] Add randomly generated mileage and car price for a single car handler
 [ ] sort manufacturers in filters
 [ ] refactor CSS
+[ ] friendly custom car URLs, e.g. car.Name-car.Year-car.Engine-IDcar.ID
 
 Maybe:
 [ ] Put everyting in Docker

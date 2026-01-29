@@ -18,15 +18,15 @@ func RenderError(w http.ResponseWriter, tmplts map[string]*template.Template, lo
 	tmplName := "404.html"
 	title := "Page Not Found | RedCars"
 	heading := "Page Not Found"
-	message := "Wrong turn"
+	message := "It looks like you've taken a wrong turn. We can get you back on the road."
 
 	// Implement if we don't have a 500.html or make dynamique error template
-	// if code == http.StatusInternalServerError {
-	// 	tmplName = "500.html"
-	// 	title = "Internal Server Error | RedCars"
-	// 	heading = "Internal Server Error"
-	// 	message = "The engine blew up. Our mechanics are on it."
-	// }
+	if code == http.StatusInternalServerError {
+		tmplName = "maintenance.html"
+		title = "Internal Server Error | RedCars"
+		heading = "Internal Server Error"
+		message = "We are currently experiencing technical difficulties. Our mechanics are working on it."
+	}
 
 	data := map[string]any{
 		"Title":   title,

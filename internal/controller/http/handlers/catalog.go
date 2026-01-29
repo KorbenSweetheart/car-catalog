@@ -55,7 +55,7 @@ func (h *CatalogHandler) Index(w http.ResponseWriter, r *http.Request) {
 	cars, err := h.uc.Catalog(ctx, filters)
 	if err != nil {
 		log.Error("failed to load catalog", "error", err)
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		RenderError(w, h.tmplts, h.log, http.StatusInternalServerError)
 		return
 	}
 
@@ -77,14 +77,14 @@ func (h *CatalogHandler) Index(w http.ResponseWriter, r *http.Request) {
 	tmpl, ok := h.tmplts["catalog.html"]
 	if !ok {
 		log.Error("template not found", "name", "catalog.html")
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		RenderError(w, h.tmplts, h.log, http.StatusInternalServerError)
 		return
 	}
 
 	var buf bytes.Buffer
 	if err := tmpl.Execute(&buf, data); err != nil {
 		log.Error("failed to render template", "error", err)
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		RenderError(w, h.tmplts, h.log, http.StatusInternalServerError)
 		return
 	}
 
