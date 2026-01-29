@@ -19,8 +19,9 @@ TODO:
 [x] Replace the icons on popular body types
 [x] implement a hamburger menu for mobile devices
 [ ] Update filter/catalog handler to remove empty filter parameters from query
-[ ] Add favicon
-[ ] Add randomly generated mileage and car price for a single car handler
+[x] Add favicon
+[ ] Add randomly generated mileage and car price for a single car handler or add to json
+[ ] Update carapi images, prepare a better one with good resolution and ratio
 [ ] sort manufacturers in filters
 [ ] refactor CSS
 [ ] friendly custom car URLs, e.g. car.Name-car.Year-car.Engine-IDcar.ID
