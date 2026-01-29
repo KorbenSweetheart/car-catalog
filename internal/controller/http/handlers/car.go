@@ -44,6 +44,10 @@ func NewCarHandler(log *slog.Logger, tmplts map[string]*template.Template, uc Ca
 func (h *CarHandler) Index(w http.ResponseWriter, r *http.Request) {
 	const op = "handlers.car.Index"
 
+	log := h.log.With(
+		slog.String("op", op),
+	)
+
 	// We use the request context to support cancellation/timeouts
 	ctx := r.Context()
 
@@ -51,22 +55,22 @@ func (h *CarHandler) Index(w http.ResponseWriter, r *http.Request) {
 
 	idStr := r.PathValue("id")
 	ID, err := strconv.Atoi(idStr)
-	if err != nil {
-		h.log.Error("failed to convert id to integer", "op", op, "input", idStr, "error", err)
-		http.Error(w, "Invalid Car ID", http.StatusBadRequest)
+	if err != nil || ID < 1 {
+		log.Error("invalid car id", "input", idStr, "error", err)
+		RenderError(w, h.tmplts, h.log, http.StatusNotFound)
 		return
 	}
 
 	car, err := h.uc.Car(ctx, ID)
 	if err != nil {
-		h.log.Error("failed to load car by id", "op", op, "error", err)
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		log.Warn("car not found", "id", ID, "error", err)
+		RenderError(w, h.tmplts, h.log, http.StatusNotFound)
 		return
 	}
 
 	popularCars, err := h.uc.RandomCars(ctx)
 	if err != nil {
-		h.log.Error("failed to load home data", "op", op, "error", err)
+		log.Error("failed to load popular cars", "error", err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
@@ -85,19 +89,20 @@ func (h *CarHandler) Index(w http.ResponseWriter, r *http.Request) {
 		"Car":         car,
 		"PopularCars": popularCars, // TODO: display recentrly viewed cars or the same category/vendor
 		"Experts":     experts,     // Placeholder
+		// Price and monthlyPay calculated by formula Price/12/6
 	}
 
 	// 3. Render
 	tmpl, ok := h.tmplts["car.html"]
 	if !ok {
-		h.log.Error("template not found", "op", op, "name", "car.html")
-		http.Error(w, "Configuration Error", http.StatusInternalServerError)
+		log.Error("template not found", "name", "car.html")
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
 
 	var buf bytes.Buffer
 	if err := tmpl.Execute(&buf, data); err != nil {
-		h.log.Error("failed to render template", "op", op, "error", err)
+		log.Error("failed to render template", "error", err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}

@@ -7,7 +7,7 @@ Mandatory:
 [x] Advanced filtering with different search options.
 [x] Display manufacturer info on a car page
 [x] Add car search
-[ ] Add a proper 404 errors handling (DRY)
+[x] Add a proper 404 errors handling (DRY)
 [ ] Comparison of different car models in terms of features and specifications.
 [ ] Add maintainance page with F1 car on pitstop
 [ ] Implement recommendations based on the visited cars
@@ -16,13 +16,13 @@ Mandatory:
 
 TODO:
 [x] Add Popular body types for homepage
+[x] Replace the icons on popular body types
+[x] implement a hamburger menu for mobile devices
 [ ] Update filter/catalog handler to remove empty filter parameters from query
-[ ] refactor CSS
 [ ] Add favicon
-[ ] Replace the icons on popular body types
 [ ] Add randomly generated mileage and car price for a single car handler
 [ ] sort manufacturers in filters
-[x] implement a hamburger menu for mobile devices
+[ ] refactor CSS
 
 Maybe:
 [ ] Put everyting in Docker

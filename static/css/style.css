@@ -144,7 +144,7 @@ img { max-width: 100%; display: block; }
 .trust-item p { font-size: 0.9rem; color: var(--gray); }
 
 /* 6. Car Grid */
-.grid-section { padding: 80px 0; }
+.grid-section { padding: 48px 24px; }
 .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; }
 .section-header h2 { font-size: 2.5rem; font-weight: 800; line-height: 1; }
 
@@ -457,7 +457,7 @@ figure.hero-figure { margin: 0; padding: 0; width: 100%; }
 }
 
 /* Standard Grids */
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 32px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
 .grid-4 { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
 .grid-3 { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
 
@@ -543,7 +543,7 @@ figure.hero-figure { margin: 0; padding: 0; width: 100%; }
     .catalog-sidebar { position: relative; top: 0; }
 }
 
-.explorer-section { background-color: var(--light); padding: 80px 0; margin: 60px 0; overflow: hidden; }
+.explorer-section { background-color: var(--light); padding: 48px 0; margin: 60px 0; overflow: hidden; }
 .explorer-layout { display: flex; align-items: center; gap: 60px; }
 .explorer-image-container { flex: 1; display: flex; justify-content: center; align-items: center; }
 .explorer-feature-car { width: 100%; max-width: 600px; height: auto; object-fit: contain; transform: scale(1.1); }
@@ -557,11 +557,11 @@ figure.hero-figure { margin: 0; padding: 0; width: 100%; }
 }
 .explorer-card:hover { transform: translateY(-8px); box-shadow: 0 12px 30px rgba(0,0,0,0.08); }
 .icon-wrapper {
-    width: 80px; height: 80px; background-color: var(--primary); border-radius: 50%;
+    width: 96px; height: 96px; background-color: var(--primary); border-radius: 50%;
     display: flex; align-items: center; justify-content: center; margin-bottom: 20px;
     box-shadow: 0 4px 15px rgba(218, 41, 28, 0.3);
 }
-.icon-wrapper img { width: 40px; height: 40px; object-fit: contain; filter: brightness(0) invert(1); }
+.icon-wrapper img { width: 72px; height: auto; object-fit: contain; filter: brightness(0) invert(1); }
 .explorer-card span { font-size: 1.1rem; font-weight: 700; color: var(--dark); }
 @media (max-width: 900px) {
     .explorer-layout { flex-direction: column; text-align: center; gap: 40px; }

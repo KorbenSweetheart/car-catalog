@@ -4,14 +4,14 @@
 <div class="container error-page">
     <div class="error-content">
         <figure class="error-image-wrapper">
-            <img src="/static/assets/images/404.png" alt="F1 Pit Stop 404" class="error-img">
+                <img src="/static/assets/images/404.png" alt="404 Pit Stop" class="error-img">
         </figure>
         
-        <h1 class="error-title">Page Not Found!</h1>
-        <p class="error-subtitle">Wrong Turn.</p>
+        <h1 class="error-title">{{.Heading}}</h1>
+        <p class="error-subtitle">{{.Message}}</p>
         <p class="error-text">
-            It looks like you've taken a wrong turn on the road.<br>
-            This page doesn't exist, but we can get you back in the race.
+            It looks like you've taken a wrong turn.<br>
+            We can get you back on the road.
         </p>
 
         <div class="error-actions">

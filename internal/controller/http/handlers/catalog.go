@@ -30,6 +30,10 @@ func NewCatalogHandler(log *slog.Logger, tmplts map[string]*template.Template, u
 func (h *CatalogHandler) Index(w http.ResponseWriter, r *http.Request) {
 	const op = "handlers.catalog.Index"
 
+	log := h.log.With(
+		slog.String("op", op),
+	)
+
 	ctx := r.Context()
 
 	// Parse FilterOptions
@@ -50,7 +54,7 @@ func (h *CatalogHandler) Index(w http.ResponseWriter, r *http.Request) {
 	// Fetch Data (Cars & Metadata for Dropdowns)
 	cars, err := h.uc.Catalog(ctx, filters)
 	if err != nil {
-		h.log.Error("failed to load catalog", "op", op, "error", err)
+		log.Error("failed to load catalog", "error", err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
@@ -58,7 +62,7 @@ func (h *CatalogHandler) Index(w http.ResponseWriter, r *http.Request) {
 	// Load to display filters in a sidebar
 	metadata, err := h.uc.Metadata(ctx)
 	if err != nil {
-		h.log.Error("failed to load metadata", "op", op, "error", err)
+		log.Error("failed to load metadata", "error", err)
 		// We continue, just with empty dropdowns
 	}
 
@@ -72,14 +76,14 @@ func (h *CatalogHandler) Index(w http.ResponseWriter, r *http.Request) {
 
 	tmpl, ok := h.tmplts["catalog.html"]
 	if !ok {
-		h.log.Error("template not found", "name", "catalog.html")
-		http.Error(w, "Configuration Error", http.StatusInternalServerError)
+		log.Error("template not found", "name", "catalog.html")
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
 
 	var buf bytes.Buffer
 	if err := tmpl.Execute(&buf, data); err != nil {
-		h.log.Error("failed to render template", "error", err)
+		log.Error("failed to render template", "error", err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}

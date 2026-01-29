@@ -31,20 +31,24 @@ func NewHomeHandler(log *slog.Logger, tmplts map[string]*template.Template, uc H
 func (h *HomeHandler) Index(w http.ResponseWriter, r *http.Request) {
 	const op = "handlers.home.Index"
 
+	log := h.log.With(
+		slog.String("op", op),
+	)
+
 	// We use the request context to support cancellation/timeouts
 	ctx := r.Context()
 
 	// 1. Fetch Data via Usecase
 	popularCars, err := h.uc.RandomCars(ctx)
 	if err != nil {
-		h.log.Error("failed to load home data", "op", op, "error", err)
+		log.Error("failed to load home data", "error", err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
 
 	familyCars, err := h.uc.RandomCars(ctx)
 	if err != nil {
-		h.log.Error("failed to load home data", "op", op, "error", err)
+		log.Error("failed to load home data", "error", err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
@@ -59,14 +63,14 @@ func (h *HomeHandler) Index(w http.ResponseWriter, r *http.Request) {
 	// 3. Render
 	tmpl, ok := h.tmplts["home.html"]
 	if !ok {
-		h.log.Error("template not found", "op", op, "name", "home.html")
-		http.Error(w, "Configuration Error", http.StatusInternalServerError)
+		log.Error("template not found", "name", "home.html")
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
 
 	var buf bytes.Buffer
 	if err := tmpl.Execute(&buf, data); err != nil {
-		h.log.Error("failed to render template", "op", op, "error", err)
+		log.Error("failed to render template", "error", err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}

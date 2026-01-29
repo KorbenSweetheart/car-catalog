@@ -44,7 +44,7 @@ func addRoutes(mux *http.ServeMux, logger *slog.Logger, tmplts map[string]*templ
 	homeHandler := handlers.NewHomeHandler(logger, tmplts, storage)
 	carHandler := handlers.NewCarHandler(logger, tmplts, storage)
 	catalogHandler := handlers.NewCatalogHandler(logger, tmplts, storage)
-	notFoundHandler := handlers.NewSystemHandler(logger, tmplts)
+	notFoundHandler := handlers.NewNotFoundHandler(logger, tmplts)
 
 	mux.HandleFunc("GET /{$}", homeHandler.Index)
 	mux.HandleFunc("GET /catalog/{id}", carHandler.Index)
