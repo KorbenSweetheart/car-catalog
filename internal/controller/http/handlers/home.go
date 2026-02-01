@@ -41,15 +41,15 @@ func (h *HomeHandler) Index(w http.ResponseWriter, r *http.Request) {
 	// 1. Fetch Data via Usecase
 	popularCars, err := h.uc.RandomCars(ctx)
 	if err != nil {
-		log.Error("failed to load home data", "error", err)
-		RenderError(w, h.tmplts, h.log, http.StatusInternalServerError)
+		log.Error("failed to load home data", slog.Any("error", err))
+		RenderError(w, h.tmplts, log, http.StatusInternalServerError)
 		return
 	}
 
 	familyCars, err := h.uc.RandomCars(ctx)
 	if err != nil {
-		log.Error("failed to load home data", "error", err)
-		RenderError(w, h.tmplts, h.log, http.StatusInternalServerError)
+		log.Error("failed to load home data", slog.Any("error", err))
+		RenderError(w, h.tmplts, log, http.StatusInternalServerError)
 		return
 	}
 
@@ -64,14 +64,14 @@ func (h *HomeHandler) Index(w http.ResponseWriter, r *http.Request) {
 	tmpl, ok := h.tmplts["home.html"]
 	if !ok {
 		log.Error("template not found", "name", "home.html")
-		RenderError(w, h.tmplts, h.log, http.StatusInternalServerError)
+		RenderError(w, h.tmplts, log, http.StatusInternalServerError)
 		return
 	}
 
 	var buf bytes.Buffer
 	if err := tmpl.Execute(&buf, data); err != nil {
-		log.Error("failed to render template", "error", err)
-		RenderError(w, h.tmplts, h.log, http.StatusInternalServerError)
+		log.Error("failed to render template", slog.Any("error", err))
+		RenderError(w, h.tmplts, log, http.StatusInternalServerError)
 		return
 	}
 

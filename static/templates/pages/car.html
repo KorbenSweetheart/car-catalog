@@ -54,7 +54,7 @@
             </button>
             
             <button type="button" class="btn btn-secondary">
-                Compare ⇄
+                <a href="/catalog?compare_ids={{.Car.ID}}#car-{{.Car.ID}}">Compare ⇄</a>
             </button>
         </div>
 
@@ -137,7 +137,11 @@
         <a href="/catalog" class="card-link view-all-link">See more &rarr;</a>
     </header>
 
-    {{template "card_grid" .PopularCars}}
+    <div class="grid grid-4">
+        {{range .PopularCars}}
+            {{template "card" dict "Car" .}}
+        {{end}}
+    </div>
 </section>
 
 {{template "expert_list" .Experts}}

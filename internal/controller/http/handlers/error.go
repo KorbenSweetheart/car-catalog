@@ -43,7 +43,7 @@ func RenderError(w http.ResponseWriter, tmplts map[string]*template.Template, lo
 
 	var buf bytes.Buffer
 	if err := tmpl.Execute(&buf, data); err != nil {
-		log.Error("failed to render error template", "error", err)
+		log.Error("failed to render error template", slog.Any("error", err))
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}

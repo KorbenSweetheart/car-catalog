@@ -21,5 +21,9 @@ func NewNotFoundHandler(log *slog.Logger, tmplts map[string]*template.Template) 
 func (h *NotFoundHandler) NotFound(w http.ResponseWriter, r *http.Request) {
 	const op = "handlers.NotFound"
 
-	RenderError(w, h.tmplts, h.log, http.StatusNotFound)
+	log := h.log.With(
+		slog.String("op", op),
+	)
+
+	RenderError(w, h.tmplts, log, http.StatusNotFound)
 }

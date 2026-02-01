@@ -8,12 +8,13 @@ Mandatory:
 [x] Display manufacturer info on a car page
 [x] Add car search
 [x] Add a proper 404 errors handling (DRY)
-[ ] Comparison of different car models in terms of features and specifications.
+[x] Comparison of different car models in terms of features and specifications.
 [ ] Implement recommendations based on the visited cars
 [x] Add maintainance page
 [ ] Implements other features that aren't listed in the bonus part.
 
 TODO:
+[ ] add reserve a car page with form
 [ ] maybe we have to swap Transmission and Gearbox, so transmission will display native data, and gearbox would be used to filter, and not displayed on a page
 [x] Add Popular body types for homepage
 [x] Replace the icons on popular body types
@@ -25,6 +26,8 @@ TODO:
 [ ] sort manufacturers in filters
 [ ] refactor CSS
 [ ] friendly custom car URLs, e.g. car.Name-car.Year-car.Engine-IDcar.ID
+[ ] maybe use pointers in cache for performance.
+[ ] make friendly query parameters in compare hlml page
 
 Maybe:
 [ ] Put everyting in Docker

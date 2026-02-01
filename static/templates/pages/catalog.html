@@ -1,12 +1,29 @@
 {{template "base" .}}
 
 {{define "content"}}
-<div class="container" style="margin-top: 40px; margin-bottom: 80px;">
+<div class="container catalog-container">
     
     <div class="catalog-header">
         <h1>All Vehicles</h1>
-        <p style="color: var(--gray);">{{len .Cars}} cars available</p>
+        <p class="text-muted">{{len .Cars}} cars available</p>
     </div>
+
+    {{if .CompareIDs}}
+    <div class="compare-bar">
+        <div class="compare-bar-content">
+            <span class="compare-count">
+                <strong>Selection Active</strong>
+            </span>
+            <div class="compare-actions">
+                <a href="/catalog{{replaceParam .Params "compare_ids" ""}}" class="btn btn-sm btn-secondary">Clear</a>
+                
+                <a href="/compare?ids={{.CompareIDs}}" class="btn btn-sm btn-primary">
+                    Compare Now &rarr;
+                </a>
+            </div>
+        </div>
+    </div>
+    {{end}}
 
     <div class="catalog-layout">
         
@@ -72,8 +89,8 @@
                 </div>
 
                 <div class="filter-actions">
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">Apply Filters</button>
-                    <a href="/catalog" class="btn btn-secondary" style="width: 100%; justify-content: center;">Reset</a>
+                    <button type="submit" class="btn btn-primary full-width">Apply Filters</button>
+                    <a href="/catalog" class="btn btn-secondary full-width justify-center">Reset</a>
                 </div>
 
             </form>
@@ -82,16 +99,17 @@
         <main class="catalog-grid">
             {{if .Cars}}
                 <div class="grid grid-4">
-                    {{template "card_list" .Cars}}
+                    {{range .Cars}}
+                        {{template "card" dict "Car" . "AllowCompare" true "SelectedMap" $.SelectedMap "LimitReached" $.LimitReached "CompareIDs" $.CompareIDs "Params" $.Params}}
+                    {{end}}
                 </div>
             {{else}}
                 <div class="empty-state">
                     <h3>No cars found 😔</h3>
-                    <p>Try adjusting your filters.</p>
+                    <p class="text-muted">Try adjusting your filters.</p>
                 </div>
             {{end}}
         </main>
-
     </div>
 </div>
 {{end}}

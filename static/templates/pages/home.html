@@ -54,7 +54,9 @@
     </div>
 
     <div class="grid grid-4">
-        {{template "card_list" .PopularCars}}
+        {{range .PopularCars}}
+            {{template "card" dict "Car" .}}
+        {{end}}
     </div>
 </section>
 
@@ -68,7 +70,9 @@
     </div>
 
     <div class="grid grid-4">
-        {{template "card_list" .FamilyCars}}
+        {{range .FamilyCars}}
+            {{template "card" dict "Car" .}}
+        {{end}}
     </div>
 </section>
 {{end}}

@@ -7,6 +7,7 @@ import (
 	"log/slog"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"gitea.kood.tech/ivanandreev/viewer/internal/domain"
 )
@@ -51,40 +52,64 @@ func (h *CatalogHandler) Index(w http.ResponseWriter, r *http.Request) {
 	filters.MinYear, _ = strconv.Atoi(q.Get("min_year"))
 	filters.MinHP, _ = strconv.Atoi(q.Get("min_hp"))
 
+	// Comparisson logic
+	compareIDsStr := q.Get("compare_ids")
+	selectedMap := make(map[int]bool)
+	count := 0
+
+	if compareIDsStr != "" {
+		parts := strings.Split(compareIDsStr, ",")
+		for _, p := range parts {
+			// Clean whitespace just in case
+			p = strings.TrimSpace(p)
+			if id, err := strconv.Atoi(p); err == nil && id > 0 {
+				selectedMap[id] = true
+				count++
+			}
+		}
+	}
+
+	// Flag to disable "Add" buttons if full
+	limitReached := count >= 3
+
 	// Fetch Data (Cars & Metadata for Dropdowns)
 	cars, err := h.uc.Catalog(ctx, filters)
 	if err != nil {
-		log.Error("failed to load catalog", "error", err)
-		RenderError(w, h.tmplts, h.log, http.StatusInternalServerError)
+		log.Error("failed to load catalog", slog.Any("error", err))
+		RenderError(w, h.tmplts, log, http.StatusInternalServerError)
 		return
 	}
 
 	// Load to display filters in a sidebar
 	metadata, err := h.uc.Metadata(ctx)
 	if err != nil {
-		log.Error("failed to load metadata", "error", err)
+		log.Error("failed to load metadata", slog.Any("error", err))
 		// We continue, just with empty dropdowns
 	}
 
 	// 3. Render
 	data := map[string]any{
-		"Title":    "Catalog | RedCar Oy",
-		"Cars":     cars,
-		"Metadata": metadata,
-		"Filters":  filters, // Pass back so we can "pre-fill" the form inputs
+		"Title":        "Catalog | RedCar Oy",
+		"Cars":         cars,
+		"Metadata":     metadata,
+		"Filters":      filters,       // Pass back so we can "pre-fill" the form inputs
+		"CompareIDs":   compareIDsStr, // The raw string for generating links
+		"SelectedMap":  selectedMap,   // To visually mark selected cars
+		"LimitReached": limitReached,  // To block add for comparisson button
+		"Params":       r.URL.Query(),
 	}
 
 	tmpl, ok := h.tmplts["catalog.html"]
 	if !ok {
 		log.Error("template not found", "name", "catalog.html")
-		RenderError(w, h.tmplts, h.log, http.StatusInternalServerError)
+		RenderError(w, h.tmplts, log, http.StatusInternalServerError)
 		return
 	}
 
 	var buf bytes.Buffer
 	if err := tmpl.Execute(&buf, data); err != nil {
-		log.Error("failed to render template", "error", err)
-		RenderError(w, h.tmplts, h.log, http.StatusInternalServerError)
+		log.Error("failed to render template", slog.Any("error", err))
+		RenderError(w, h.tmplts, log, http.StatusInternalServerError)
 		return
 	}
 

@@ -1,0 +1,138 @@
+{{template "base" .}}
+
+{{define "content"}}
+<div class="container compare-page-container">
+    
+    <div class="compare-header">
+        <h1>Compare Vehicles</h1>
+        <a href="/catalog" class="btn btn-secondary">
+            &larr; Back to Catalog
+        </a>
+    </div>
+
+    {{if .Cars}}
+        <div class="compare-container">
+            <div class="table-responsive">
+                <table class="compare-table">
+                    <thead>
+                        <tr>
+                            <th class="spec-label-col"></th>
+                            
+                            {{range .Cars}}
+                            <th class="car-col">
+                                <div class="card compare-card">
+                                    
+                                    <a href="/compare?ids={{toggleID $.CompareIDs .ID}}" class="btn-remove-icon" title="Remove vehicle">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    </a>
+
+                                    <a href="/catalog/{{.ID}}" class="card-img-wrapper block">
+                                        <img src="{{.Image}}" alt="{{.Name}}" class="card-img">
+                                        <div class="card-badge">{{.Year}}</div>
+                                    </a>
+                                    
+                                    <div class="card-body">
+                                        <a href="/catalog/{{.ID}}" class="block mb-4">
+                                            <h3 class="card-title">{{.Name}}</h3>
+                                            <div class="card-trim">
+                                                <span>{{.Specs.Engine}}</span> 
+                                            </div>
+                                        </a>
+                                        
+                                        <div class="card-specs">
+                                            <span>
+                                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="18" height="18">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3a9 9 0 0 0-9 9 9 9 0 0 0 9 9 9 9 0 0 0 9-9 9 9 0 0 0-9-9z"></path>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5c0 1.38-1.12 2.5-2.5 2.5z"></path>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 10.5L16 6"></path>
+                                                </svg>
+                                                {{.Specs.HP}} hp
+                                            </span>
+                                            <span>
+                                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="18" height="18"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                                {{.Specs.Transmission}}
+                                            </span>
+                                            
+                                            <div class="tooltip-container">
+                                                 {{if eq .Specs.Drivetrain "Front-Wheel Drive"}}
+                                                    <div class="drive-badge">F</div>
+                                                    <span class="tooltip-text">Front-Wheel Drive</span>
+                                                 {{else if eq .Specs.Drivetrain "Rear-Wheel Drive"}}
+                                                    <div class="drive-badge">R</div>
+                                                    <span class="tooltip-text">Rear-Wheel Drive</span>
+                                                 {{else}}
+                                                    <div class="drive-badge">A</div>
+                                                    <span class="tooltip-text">All-Wheel Drive</span>
+                                                 {{end}}
+                                                 <span>Drive</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="card-footer">
+                                            <div class="card-compare-wrapper">
+                                                <a href="/catalog/{{.ID}}" class="btn-compare">
+                                                    View Details
+                                                </a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </th>
+                            {{end}}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="spec-label">Body Type</td>
+                            {{range .Cars}}<td>{{.Category.Name}}</td>{{end}}
+                        </tr>
+                        <tr>
+                            <td class="spec-label">Year</td>
+                            {{range .Cars}}<td class="{{if eq .Year $.NewestCar}}highlight-best{{end}}">{{.Year}}</td>{{end}}
+                        </tr>
+                        <tr>
+                            <td class="spec-label">Engine</td>
+                            {{range .Cars}}<td>{{.Specs.Engine}}</td>{{end}}
+                        </tr>
+                        <tr>
+                            <td class="spec-label">Power</td>
+                            {{range .Cars}}<td class="{{if eq .Specs.HP $.MaxHP}}highlight-best{{end}}"><strong>{{.Specs.HP}} hp</strong></td>{{end}}
+                        </tr>
+                        <tr>
+                            <td class="spec-label">Transmission</td>
+                            {{range .Cars}}<td>{{.Specs.Transmission}}</td>{{end}}
+                        </tr>
+                        <tr>
+                            <td class="spec-label">Gearbox</td>
+                            {{range .Cars}}<td>{{.Specs.Gearbox}}</td>{{end}}
+                        </tr>
+                        <tr>
+                            <td class="spec-label">Drivetrain</td>
+                            {{range .Cars}}<td>{{.Specs.Drivetrain}}</td>{{end}}
+                        </tr>
+                        <tr>
+                            <td class="spec-label">Manufacturer</td>
+                            {{range .Cars}}<td>{{.Manufacturer.Name}}</td>{{end}}
+                        </tr>
+                        <tr>
+                            <td class="spec-label">Country</td>
+                            {{range .Cars}}<td>{{.Manufacturer.Country}}</td>{{end}}
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {{else}}
+        <div class="empty-state">
+            <h3>No vehicles selected</h3>
+            <p class="text-muted">Go back to the catalog to select cars for comparison.</p>
+            <br>
+            <a href="/catalog" class="btn btn-primary">Go to Catalog</a>
+        </div>
+    {{end}}
+
+</div>
+{{end}}

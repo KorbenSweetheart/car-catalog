@@ -56,22 +56,22 @@ func (h *CarHandler) Index(w http.ResponseWriter, r *http.Request) {
 	idStr := r.PathValue("id")
 	ID, err := strconv.Atoi(idStr)
 	if err != nil || ID < 1 {
-		log.Error("invalid car id", "input", idStr, "error", err)
-		RenderError(w, h.tmplts, h.log, http.StatusNotFound)
+		log.Error("invalid car id", "input", idStr, slog.Any("error", err))
+		RenderError(w, h.tmplts, log, http.StatusNotFound)
 		return
 	}
 
 	car, err := h.uc.Car(ctx, ID)
 	if err != nil {
-		log.Warn("car not found", "id", ID, "error", err)
-		RenderError(w, h.tmplts, h.log, http.StatusNotFound)
+		log.Warn("car not found", "id", ID, slog.Any("error", err))
+		RenderError(w, h.tmplts, log, http.StatusNotFound)
 		return
 	}
 
 	popularCars, err := h.uc.RandomCars(ctx)
 	if err != nil {
-		log.Error("failed to load popular cars", "error", err)
-		RenderError(w, h.tmplts, h.log, http.StatusInternalServerError)
+		log.Error("failed to load popular cars", slog.Any("error", err))
+		RenderError(w, h.tmplts, log, http.StatusInternalServerError)
 		return
 	}
 
@@ -96,14 +96,14 @@ func (h *CarHandler) Index(w http.ResponseWriter, r *http.Request) {
 	tmpl, ok := h.tmplts["car.html"]
 	if !ok {
 		log.Error("template not found", "name", "car.html")
-		RenderError(w, h.tmplts, h.log, http.StatusInternalServerError)
+		RenderError(w, h.tmplts, log, http.StatusInternalServerError)
 		return
 	}
 
 	var buf bytes.Buffer
 	if err := tmpl.Execute(&buf, data); err != nil {
-		log.Error("failed to render template", "error", err)
-		RenderError(w, h.tmplts, h.log, http.StatusInternalServerError)
+		log.Error("failed to render template", slog.Any("error", err))
+		RenderError(w, h.tmplts, log, http.StatusInternalServerError)
 		return
 	}
 

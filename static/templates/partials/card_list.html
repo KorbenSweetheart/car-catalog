@@ -1,13 +1,5 @@
-<!-- {{define "card_grid"}}
-<div class="grid">
-    {{range .}}
-        {{template "card" .}}
-    {{end}}
-</div>
-{{end}} -->
-
 {{define "card_list"}}
-    {{range .}}
-        {{template "card" .}}
+    {{range .Cars}}
+        {{template "card" dict "Car" . "AllowCompare" $.AllowCompare "SelectedMap" $.SelectedMap "LimitReached" $.LimitReached "CompareIDs" $.CompareIDs}}
     {{end}}
 {{end}}
