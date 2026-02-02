@@ -23,7 +23,8 @@ import (
 // It combines: Layouts + Partials + [Specific Page]
 
 func ParseTemplates(rootDir string, log *slog.Logger) (map[string]*template.Template, error) {
-	const op = "render.ParseTemplates"
+	const op = "internal.httpserver.ParseTemplates"
+
 	log = log.With("op", op)
 
 	cache := make(map[string]*template.Template)

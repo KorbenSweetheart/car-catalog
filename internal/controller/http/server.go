@@ -24,7 +24,7 @@ func NewHTTPServer(handler http.Handler, cfg *config.Config) *http.Server {
 }
 
 func RunServer(ctx context.Context, log *slog.Logger, cfg *config.Config, server *http.Server, shutdownTimeout time.Duration) error {
-	const op = "internal.httpserver.server.Run"
+	const op = "internal.httpserver.RunServer"
 
 	log = log.With(
 		slog.String("op", op),
