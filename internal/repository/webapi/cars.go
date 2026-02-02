@@ -35,29 +35,29 @@ func (w *WebRepository) Cars(ctx context.Context) ([]domain.Car, error) {
 	// Map DTO to Domain
 	cars := make([]domain.Car, 0, len(dtos))
 
-	for _, d := range dtos {
+	for i := range dtos {
 		car := domain.Car{
 
-			ID:    d.ID,
-			Name:  d.Name,
-			Year:  d.Year,
-			Image: w.imageURL(d.Image),
+			ID:    dtos[i].ID,
+			Name:  dtos[i].Name,
+			Year:  dtos[i].Year,
+			Image: w.imageURL(dtos[i].Image),
 
 			// Map the Nested Specs Struct
 			Specs: domain.Specs{
-				Engine:       d.Specs.Engine,
-				HP:           d.Specs.HP,
-				Gearbox:      d.Specs.Gearbox,
-				Transmission: NormalizeGearbox(d.Specs.Gearbox),
-				Drivetrain:   d.Specs.Drivetrain,
+				Engine:       dtos[i].Specs.Engine,
+				HP:           dtos[i].Specs.HP,
+				Gearbox:      dtos[i].Specs.Gearbox,
+				Transmission: NormalizeGearbox(dtos[i].Specs.Gearbox),
+				Drivetrain:   dtos[i].Specs.Drivetrain,
 			},
 
 			// PARTIAL FILL: We only know and need the ID right now.
 			Manufacturer: domain.Manufacturer{
-				ID: d.ManufacturerId,
+				ID: dtos[i].ManufacturerId,
 			},
 			Category: domain.Category{
-				ID: d.CategoryId,
+				ID: dtos[i].CategoryId,
 			},
 		}
 		cars = append(cars, car)

@@ -31,12 +31,12 @@ func (w *WebRepository) Manufacturers(ctx context.Context) ([]domain.Manufacture
 
 	vendors := make([]domain.Manufacturer, 0, len(dtos))
 
-	for _, d := range dtos {
+	for i := range dtos {
 		vendor := domain.Manufacturer{
-			ID:           d.ID,
-			Name:         d.Name,
-			Country:      d.Country,
-			FoundingYear: d.FoundingYear,
+			ID:           dtos[i].ID,
+			Name:         dtos[i].Name,
+			Country:      dtos[i].Country,
+			FoundingYear: dtos[i].FoundingYear,
 		}
 		vendors = append(vendors, vendor)
 	}

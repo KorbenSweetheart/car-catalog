@@ -31,10 +31,10 @@ func (w *WebRepository) Categories(ctx context.Context) ([]domain.Category, erro
 
 	categories := make([]domain.Category, 0, len(dtos))
 
-	for _, d := range dtos {
+	for i := range dtos {
 		category := domain.Category{
-			ID:   d.ID,
-			Name: d.Name,
+			ID:   dtos[i].ID,
+			Name: dtos[i].Name,
 		}
 		categories = append(categories, category)
 	}
