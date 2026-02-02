@@ -14,22 +14,27 @@ Mandatory:
 [ ] Implements other features that aren't listed in the bonus part.
 
 TODO:
-[ ] add reserve a car page with form
-[ ] maybe we have to swap Transmission and Gearbox, so transmission will display native data, and gearbox would be used to filter, and not displayed on a page
 [x] Add Popular body types for homepage
 [x] Replace the icons on popular body types
 [x] implement a hamburger menu for mobile devices
-[ ] Update filter/catalog handler to remove empty filter parameters from query
 [x] Add favicon
-[ ] Add randomly generated mileage and car price for a single car handler or add to json
-[ ] Update carapi images, prepare a better one with good resolution and ratio
-[ ] sort manufacturers in filters
-[ ] refactor CSS
-[ ] friendly custom car URLs, e.g. car.Name-car.Year-car.Engine-IDcar.ID
-[ ] maybe use pointers in cache for performance.
+[ ] Fix mobile view of the compare page
+[ ] add reserve a car page with form
+[x] limit search input string to 50
+[ ] Update filter/catalog handler to remove empty filter parameters from query
 [ ] make friendly query parameters in compare hlml page
+[ ] sort manufacturers in filters
+[ ] maybe use pointers in cache for performance.
+[ ] update for loops to use index instead of copy the object
+[ ] maybe we have to swap Transmission and Gearbox, so transmission will display native data, and gearbox would be used to filter, and not displayed on a page
+[ ] refactor CSS
 
 Maybe:
+[ ] Update carapi images, prepare a better one with good resolution and ratio
+[ ] Maybe each usecase file should be a separate usecase struct.
 [ ] Put everyting in Docker
 [ ] Try Redis as a repo or cache replacement
 [ ] Try SQLite as a repo replacement
+[ ] friendly custom car URLs, e.g. car.Name-car.Year-car.Engine-IDcar.ID
+[ ] Add randomly generated mileage and car price for a single car handler or add to json
+[ ] Maybe map webapi cars to have full data, and also cache it. Or create a car review struct and cache it for catalog.

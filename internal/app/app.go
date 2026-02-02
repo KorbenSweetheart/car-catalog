@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"gitea.kood.tech/ivanandreev/viewer/internal/config"
-	httpserver "gitea.kood.tech/ivanandreev/viewer/internal/controller/http"
+	"gitea.kood.tech/ivanandreev/viewer/internal/controller/httpserver"
 	"gitea.kood.tech/ivanandreev/viewer/internal/lib/adapter"
 	"gitea.kood.tech/ivanandreev/viewer/internal/lib/e"
 	"gitea.kood.tech/ivanandreev/viewer/internal/repository/webapi"

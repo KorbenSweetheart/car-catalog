@@ -10,11 +10,10 @@ import (
 
 // The Business Logic -> provide car/cars
 
-const limit = 4
-
 type CarProvider interface {
 	Car(ctx context.Context, ID int) (domain.Car, error)
 	Cars(ctx context.Context) ([]domain.Car, error)
+	CarsByIDs(ctx context.Context, viewedIDs []int) ([]domain.Car, error)
 	RandomCars(ctx context.Context, limit int) ([]domain.Car, error)
 	Metadata(ctx context.Context) (domain.Metadata, error)
 }
@@ -94,6 +93,8 @@ func (s *CarStore) RandomCars(ctx context.Context) ([]domain.Car, error) {
 		slog.String("op", op),
 	)
 
+	const limit = 4
+
 	// Logic: Get 4 cars, maybe filter them, maybe handle errors specifically
 	cars, err := s.repo.RandomCars(ctx, limit)
 	if err != nil {
@@ -109,7 +110,7 @@ func (s *CarStore) RandomCars(ctx context.Context) ([]domain.Car, error) {
 }
 
 func (s *CarStore) Metadata(ctx context.Context) (domain.Metadata, error) {
-	const op = "usecase.carstore.Filters"
+	const op = "usecase.carstore.Metadata"
 
 	log := s.log.With(
 		slog.String("op", op),
