@@ -38,10 +38,10 @@ func (w *WebRepository) Metadata(ctx context.Context) (domain.Metadata, error) {
 	uniqueTransmissions := make(map[string]bool)
 
 	// The Enrichment Loop
-	for _, car := range cars {
+	for i := range cars {
 		// Collect Metadata Strings
-		uniqueDrivetrains[car.Specs.Drivetrain] = true
-		uniqueTransmissions[car.Specs.Transmission] = true
+		uniqueDrivetrains[cars[i].Specs.Drivetrain] = true
+		uniqueTransmissions[cars[i].Specs.Transmission] = true
 	}
 
 	// Convert Maps to Slices
