@@ -8,7 +8,7 @@ import (
 	"gitea.kood.tech/ivanandreev/viewer/internal/lib/e"
 )
 
-func (w *WebRepository) CarsByIDs(ctx context.Context, viewedIDs []int) ([]domain.Car, error) {
+func (w *WebRepository) CarsByIDs(ctx context.Context, viewedIDs map[int]int) ([]domain.Car, error) {
 	const op = "repository.webapi.CarsByIDs"
 
 	log := w.log.With(
@@ -26,21 +26,22 @@ func (w *WebRepository) CarsByIDs(ctx context.Context, viewedIDs []int) ([]domai
 		return []domain.Car{}, e.Wrap("failed to get cars", err)
 	}
 
-	viewedCars := make([]domain.Car, 0, len(viewedIDs))
+	foundCars := make([]domain.Car, 0, len(viewedIDs))
 
 	// Find the matching car object
-	for _, id := range viewedIDs {
-		for i := range cars {
-			if cars[i].ID == id {
-				viewedCars = append(viewedCars, cars[i])
+	for _, car := range cars {
+		if _, ok := viewedIDs[car.ID]; ok {
+			foundCars = append(foundCars, car)
+
+			if len(foundCars) == len(viewedIDs) {
 				break
 			}
 		}
 	}
 
 	log.Info("cars loaded",
-		slog.Int("cars_count", len(viewedCars)),
+		slog.Int("cars_count", len(foundCars)),
 	)
 
-	return viewedCars, nil
+	return foundCars, nil
 }
