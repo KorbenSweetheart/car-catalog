@@ -5,11 +5,12 @@ Mandatory:
 - [x] Add car search
 - [x] Add a proper 404 errors handling (DRY)
 - [x] Comparison of different car models in terms of features and specifications.
-- [ ] Implement recommendations based on the visited cars
+- [x] Implement recommendations based on the visited cars
 - [x] Add maintainance page
-- [ ] Implements other features that aren't listed in the bonus part.
+- [x] Implements other features that aren't listed in the bonus part.
 
 TODO:
+- [ ] check the memory leak related to the slices
 - [x] Add Popular body types for homepage
 - [x] Replace the icons on popular body types
 - [x] implement a hamburger menu for mobile devices
