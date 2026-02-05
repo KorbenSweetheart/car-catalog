@@ -25,16 +25,20 @@ func (w *WebRepository) RandomCars(ctx context.Context, limit int) ([]domain.Car
 	// 2. Shuffle in Go Memory (not efficient on a big scale, but with current webapi it would be ok)
 
 	// its better to use one more copy for security, but in this case its ok to oporeate directly on a copy of cars slice.
-	// shuffled := make([]domain.Car, len(cars))
-	// copy(shuffled, cars)
+	shuffled := make([]domain.Car, len(cars))
+	copy(shuffled, cars)
 
-	rand.Shuffle(len(cars), func(i, j int) {
-		cars[i], cars[j] = cars[j], cars[i]
+	rand.Shuffle(len(shuffled), func(i, j int) {
+		shuffled[i], shuffled[j] = shuffled[j], shuffled[i]
 	})
 
-	if limit > len(cars) {
-		limit = len(cars)
+	if limit > len(shuffled) {
+		limit = len(shuffled)
 	}
 
-	return cars[:limit], nil
+	randomCars := make([]domain.Car, limit)
+
+	copy(randomCars, shuffled)
+
+	return randomCars, nil
 }
