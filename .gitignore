@@ -9,6 +9,10 @@
 *.so
 *.dylib
 
+# Ignore all files in the root that don't have an extension
+/*
+!/*.*
+
 # Test binary, built with `go test -c`
 *.test
 
