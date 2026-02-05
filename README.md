@@ -23,32 +23,52 @@ It features a privacy-first recommendation engine that tracks user session histo
 ### 1. Clean Architecture
 The application maintains strict boundaries between layers to ensure testability and interchangeability of components:
 
-**Delivery Layer** (`internal/controller/`): Handles HTTP transport, cookie parsing, and response formatting. It contains no business logic.
+* **Delivery Layer** (`internal/controller/`):
 
-**Domain Layer** (`internal/usecase/`): Contains pure business rules (data retrieval, catalog filtering, recommendation logic). It has no knowledge of the database or HTTP.
+Handles HTTP transport, cookie parsing, and response formatting. It contains no business logic.
 
-**Data Layer** (`internal/repository/`): Manages data retrieval from the external API. It utilizes a reusable HTTP client (`pkg/httpclient`) to fetch resources and handles the mapping of raw DTOs into internal domain entities.
+* **Domain Layer** (`internal/usecase/`):
+
+Contains pure business rules (data retrieval, catalog filtering, recommendation logic). It has no knowledge of the database or HTTP.
+
+* **Data Layer** (`internal/repository/`):
+
+Manages data retrieval from the external API. It utilizes a reusable HTTP client (`pkg/httpclient`) to fetch resources and handles the mapping of raw DTOs into internal domain entities.
 
 ### 2. Concurrency & State Management
 
-**Thread-Safe Caching:** The custom cache package (`pkg/cache`) uses `sync.RWMutex` to protect shared state during concurrent access.
+* **Thread-Safe Caching:**
 
-**Janitor Pattern:** A background goroutine actively monitors and evicts expired cache items. This prevents memory leaks while keeping the main execution thread unblocked.
+The custom cache package (`pkg/cache`) uses `sync.RWMutex` to protect shared state during concurrent access.
 
-**Graceful Shutdown:** The server captures OS signals (`SIGTERM`, `SIGINT`) and utilizes `context.WithTimeout` to finish processing active requests before shutting down connections.
+* **Janitor Pattern:**
 
-**Behavioral Recommendation Engine:** A custom algorithm that analyzes session history to determine brand affinity and category preferences. It employs a 4-slot strategy:
+A background goroutine actively monitors and evicts expired cache items. This prevents memory leaks while keeping the main execution thread unblocked.
+
+* **Graceful Shutdown:**
+
+The server captures OS signals (`SIGTERM`, `SIGINT`) and utilizes `context.WithTimeout` to finish processing active requests before shutting down connections.
+
+* **Behavioral Recommendation Engine:**
+
+A custom algorithm that analyzes session history to determine brand affinity and category preferences. It employs a 4-slot strategy:
 1.  *Resume Journey:* The user's most viewed vehicle.
 2.  *Resume Journey 2:* The user's second most viewed vehicle.
 3.  *Brand Loyalty:* A different model from the user's most visited manufacturer.
 4.  *Competitor Comparison:* A model from the second most visited manufacturer.
 5.  *Discovery:* A popular vehicle from the user's preferred category.
 
-**Dynamic Comparison Grid:** A responsive, CSS Grid-based comparison tool that adapts layout columns based on the number of selected vehicles, implemented without heavy JavaScript frameworks.
+* **Dynamic Comparison Grid:**
 
-**Server-Side Rendering:** High-performance HTML delivery using Go's `html/template` engine.
+A responsive, CSS Grid-based comparison tool that adapts layout columns based on the number of selected vehicles, implemented without heavy JavaScript frameworks.
 
-**Resilient Data Layer:** Handles external API failures gracefully with fallback strategies and strict data sanitization.
+* **Server-Side Rendering:**
+
+High-performance HTML delivery using Go's `html/template` engine.
+
+* **Resilient Data Layer:**
+
+Handles external API failures gracefully with fallback strategies and strict data sanitization.
 
 ## Prerequisites
 
@@ -57,12 +77,15 @@ The application maintains strict boundaries between layers to ensure testability
 
 ## Setup and Installation
 
-The system consists of two parts: the external Data API (Node.js) and the Viewer Application (Go). Both must be running for the application to function correctly.
+The system consists of two parts: the external Data API (Node.js) and the Viewer Application (Go).
+
+Both must be running for the application to function correctly.
 
 ### 1. Start the Cars API (Backend Service)
 
 > [!IMPORTANT]
 > The data source is located in the separate `carapi` directory.
+> 
 > Please refer to the `README.md` within that folder for detailed configuration options.
 
 **Quick Start:**
@@ -74,10 +97,12 @@ cd carapi
 ```
 
 2. Install dependencies:
-```bash
+
+- Install [NodeJS](http://nodejs.org)
+- Install [NPM](https://www.npmjs.com/package/npm) package manager
+- Install required packages: 
+```bash 
 make build
-# OR
-npm install
 ```
 
 3. Start the API server:
@@ -87,7 +112,9 @@ make run
 
 > [!WARNING]
 > By default, the API runs on `http://localhost:3000`.
+> 
 > So, the Viewer config is set to request data from this host.
+> 
 > If needed, you can change it in the config/local/local.json file.
 
 ### 2. Start the Viewer Application (Frontend)
@@ -99,11 +126,11 @@ Once the API is running, open a new terminal window to start the Go application.
 ```bash
 go build -o viewer cmd/viewer/main.go
 ```
-2. Run the application:
+3. Run the application:
 ```bash
-go run cmd/viewer/main.go
+./viewer
 ```
-3. Access the application in your browser:
+4. Access the application in your browser:
 ```bash
 http://localhost:8080
 ```
