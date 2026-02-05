@@ -13,8 +13,9 @@ import (
 type CarProvider interface {
 	Car(ctx context.Context, ID int) (domain.Car, error)
 	Cars(ctx context.Context) ([]domain.Car, error)
-	CarsByIDs(ctx context.Context, viewedIDs []int) ([]domain.Car, error)
+	CarsByIDs(ctx context.Context, viewedIDs map[int]int) ([]domain.Car, error)
 	RandomCars(ctx context.Context, limit int) ([]domain.Car, error)
+	RecommendedCars(ctx context.Context, topManID int, secondManID int, topCatID int, topCarID int, secondCarID int) ([]domain.Car, error)
 	Metadata(ctx context.Context) (domain.Metadata, error)
 }
 

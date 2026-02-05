@@ -32,7 +32,7 @@ func (s *CarStore) Catalog(ctx context.Context, filters domain.FilterOptions) ([
 }
 
 func (s *CarStore) filterCars(allCars []domain.Car, f domain.FilterOptions) []domain.Car {
-	var filtered []domain.Car
+	filtered := make([]domain.Car, 0, len(allCars))
 
 	for _, car := range allCars {
 		// 1. Manufacturer
