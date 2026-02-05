@@ -23,15 +23,15 @@ It features a privacy-first recommendation engine that tracks user session histo
 ### 1. Clean Architecture
 The application maintains strict boundaries between layers to ensure testability and interchangeability of components:
 
-* **Delivery Layer** (`internal/controller/`):
+#### Delivery Layer
 
 Handles HTTP transport, cookie parsing, and response formatting. It contains no business logic.
 
-* **Domain Layer** (`internal/usecase/`):
+#### Domain Layer
 
 Contains pure business rules (data retrieval, catalog filtering, recommendation logic). It has no knowledge of the database or HTTP.
 
-* **Data Layer** (`internal/repository/`):
+#### Data Layer
 
 Manages data retrieval from the external API. It utilizes a reusable HTTP client (`pkg/httpclient`) to fetch resources and handles the mapping of raw DTOs into internal domain entities.
 
