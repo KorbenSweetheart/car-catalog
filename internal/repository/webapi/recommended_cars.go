@@ -23,7 +23,8 @@ func (w *WebRepository) RecommendedCars(ctx context.Context, topManID int, secon
 
 	// return car of top man + top cat && !topCarID, car of second man + top cat, car of another man + top cat
 	result := make([]domain.Car, 0, 3)
-	var slot1, slot2, slot3 *domain.Car
+	var slot1, slot2, slot3 domain.Car
+	var found1, found2, found3 bool
 
 	for i := range cars {
 		c := &cars[i]
@@ -32,33 +33,30 @@ func (w *WebRepository) RecommendedCars(ctx context.Context, topManID int, secon
 			continue
 		}
 
-		// car of top man + top cat && !topCarID && !secondCarID
-		if slot1 == nil && c.Manufacturer.ID == topManID {
-			slot1 = c
-		}
-		// car of second man + top cat && !topCarID && !secondCarID
-		if slot2 == nil && c.Manufacturer.ID == secondManID {
-			slot2 = c
-		}
-		// car of another man + top cat && !topCarID && !secondCarID
-		// NOTE: it might be better to show random manufacturer + top category
-		if slot3 == nil && c.Manufacturer.ID != topManID && c.Manufacturer.ID != secondManID {
-			slot3 = c
+		if !found1 && c.Manufacturer.ID == topManID { // car of top vendor + top category && !topCarID && !secondCarID
+			slot1 = *c
+			found1 = true
+		} else if !found2 && c.Manufacturer.ID == secondManID { // car of second vendor + top category && !topCarID && !secondCarID
+			slot2 = *c
+			found2 = true
+		} else if !found3 && c.Manufacturer.ID != topManID && c.Manufacturer.ID != secondManID { // car of another vendor + top cat && !topCarID && !secondCarID // NOTE: it might be better to show random manufacturer + top category
+			slot3 = *c
+			found3 = true
 		}
 
-		if slot1 != nil && slot2 != nil && slot3 != nil {
+		if found1 && found2 && found3 {
 			break
 		}
 	}
 
-	if slot1 != nil {
-		result = append(result, *slot1)
+	if slot1.ID != 0 {
+		result = append(result, slot1)
 	}
-	if slot2 != nil {
-		result = append(result, *slot2)
+	if slot2.ID != 0 {
+		result = append(result, slot2)
 	}
-	if slot3 != nil {
-		result = append(result, *slot3)
+	if slot3.ID != 0 {
+		result = append(result, slot3)
 	}
 
 	return result, nil
