@@ -16,6 +16,7 @@ type CarStorage interface {
 	Car(ctx context.Context, ID int) (domain.Car, error)
 	Cars(ctx context.Context) ([]domain.Car, error)
 	RandomCars(ctx context.Context) ([]domain.Car, error)
+	RecommendedCars(ctx context.Context, IDs []int, excID int) ([]domain.Car, error)
 	Catalog(ctx context.Context, filters domain.FilterOptions) ([]domain.Car, error)
 	Metadata(ctx context.Context) (domain.Metadata, error)
 }

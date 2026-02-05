@@ -7,11 +7,13 @@ import (
 	"log/slog"
 	"net/http"
 
+	"gitea.kood.tech/ivanandreev/viewer/internal/controller/httpserver/cookies"
 	"gitea.kood.tech/ivanandreev/viewer/internal/domain"
 )
 
 type HomeUsecase interface {
 	RandomCars(ctx context.Context) ([]domain.Car, error)
+	RecommendedCars(ctx context.Context, IDs []int, excID int) ([]domain.Car, error)
 }
 
 type HomeHandler struct {
@@ -38,6 +40,17 @@ func (h *HomeHandler) Index(w http.ResponseWriter, r *http.Request) {
 	// We use the request context to support cancellation/timeouts
 	ctx := r.Context()
 
+	// Retrieve latest cookie
+	viewedCarIDs := cookies.ViewedCarIDs(r, log)
+
+	// Get Personalized cars (excl current ID if its top viewed car)
+	recommendedCars, err := h.uc.RecommendedCars(ctx, viewedCarIDs, 0)
+	if err != nil {
+		log.Error("failed to load recommended cars", slog.Any("error", err))
+		RenderError(w, h.tmplts, log, http.StatusInternalServerError)
+		return
+	}
+
 	// 1. Fetch Data via Usecase
 	popularCars, err := h.uc.RandomCars(ctx)
 	if err != nil {
@@ -46,18 +59,11 @@ func (h *HomeHandler) Index(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	familyCars, err := h.uc.RandomCars(ctx)
-	if err != nil {
-		log.Error("failed to load home data", slog.Any("error", err))
-		RenderError(w, h.tmplts, log, http.StatusInternalServerError)
-		return
-	}
-
 	// 2. Prepare Data for Template
 	data := map[string]any{
-		"Title":       "Home - RedCar Oy",
-		"PopularCars": popularCars, // Passed to {{range .Cars}}
-		"FamilyCars":  familyCars,
+		"Title":           "Home - RedCar Oy",
+		"PopularCars":     popularCars, // Passed to {{range .Cars}}
+		"RecommendedCars": recommendedCars,
 	}
 
 	// 3. Render

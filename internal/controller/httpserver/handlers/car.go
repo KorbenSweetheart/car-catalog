@@ -15,7 +15,7 @@ import (
 
 type CarUsecase interface {
 	Car(ctx context.Context, ID int) (domain.Car, error)
-	RecommendedCars(ctx context.Context, IDs []int) ([]domain.Car, error)
+	RecommendedCars(ctx context.Context, IDs []int, excID int) ([]domain.Car, error)
 	RandomCars(ctx context.Context) ([]domain.Car, error) // TODO: display cars from the same category/brand or most viewed based on cookies
 }
 
@@ -70,26 +70,37 @@ func (h *CarHandler) Index(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// --- COOKIES LOGIC ---
+	// --- SET & UPDATE COOKIES LOGIC ---
 	// Update the 'viewed_cars' cookie with the current ID (Stack/Recency)
 	cookies.TrackViewedCar(w, r, car.ID, log)
 
+	// Retrieve latest cookie
 	viewedCarIDs := cookies.ViewedCarIDs(r, log)
+
 	// Get Personalized cars (excl current ID if its top viewed car)
-	recommendedCars, err := h.uc.RecommendedCars(ctx, viewedCarIDs)
+	recommendedCars, err := h.uc.RecommendedCars(ctx, viewedCarIDs, ID)
 	if err != nil {
 		log.Error("failed to load recommended cars", slog.Any("error", err))
 		RenderError(w, h.tmplts, log, http.StatusInternalServerError)
 		return
 	}
 
-	// 3. Get 4 random cars
-	popularCars, err := h.uc.RandomCars(ctx)
-	if err != nil {
-		log.Error("failed to load popular cars", slog.Any("error", err))
-		RenderError(w, h.tmplts, log, http.StatusInternalServerError)
-		return
-	}
+	// // need to exclude current page car ID and limit amount of displayed cars to 4
+	// filteredCars := make([]domain.Car, 0, 4)
+
+	// for i := range recommendedCars {
+	// 	if recommendedCars[i].ID == ID {
+	// 		continue
+	// 	}
+
+	// 	// Add to list
+	// 	filteredCars = append(filteredCars, recommendedCars[i])
+
+	// 	// Stop once we have 4 cars
+	// 	if len(filteredCars) == 4 {
+	// 		break
+	// 	}
+	// }
 
 	// Placeholder: Hardcoded list of experts
 	experts := []Expert{
@@ -101,10 +112,10 @@ func (h *CarHandler) Index(w http.ResponseWriter, r *http.Request) {
 
 	// Prepare Data for Template
 	data := map[string]any{
-		"Title":       fmt.Sprintf("%s %d - HP: %d, %s | RedCar Oy", car.Name, car.Year, car.Specs.HP, car.Specs.Transmission),
+		"Title":       fmt.Sprintf("%s %d - %dHP, %s Transmission | RedCar Oy", car.Name, car.Year, car.Specs.HP, car.Specs.Transmission),
 		"Car":         car,
-		"PopularCars": popularCars, // TODO: display recentrly viewed cars or the same category/vendor
-		"Experts":     experts,     // Placeholder
+		"PopularCars": recommendedCars, // TODO: display recentrly viewed cars or the same category/vendor
+		"Experts":     experts,         // Placeholder
 	}
 
 	// Render

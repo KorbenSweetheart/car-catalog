@@ -9,7 +9,7 @@ import (
 
 const (
 	viewedCarsCookieName = "viewed_cars"
-	maxHistorySize       = 21
+	maxHistorySize       = 31
 )
 
 func ViewedCarIDs(r *http.Request, log *slog.Logger) []int {
