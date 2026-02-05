@@ -85,6 +85,8 @@ Both must be running for the application to function correctly.
 
 > [!IMPORTANT]
 > The data source is located in the separate `carapi` directory.
+>
+> The JSON file and images are updated by kood/Sisu students to scale up the originally provided number of cars and enable better experimentation and testability.
 > 
 > Please refer to the `README.md` within that folder for detailed configuration options.
 
