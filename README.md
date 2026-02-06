@@ -12,11 +12,15 @@ This project was built as a comprehensive exercise in modern backend development
 
 It features a privacy-first recommendation engine that tracks user session history via HTTP-only cookies to generate personalized suggestions without client-side analytics scripts.
 
+-----
+
 ## Key learnings and Results:
 - Architecting a scalable Go application using Clean Architecture principles to maintain a strict, logical separation between the transport layer, business logic, and data access.
 - Developing modular, testable codebases by leveraging Go Interfaces and Dependency Injection for high component maintainability.
 - Integrating external REST APIs via an abstracted data layer, allowing for seamless transitions between data sources (API/DB) without impacting core logic.
 - Improving application performance through in-memory caching (with future Redis swap in mind) and UX personalized experiences via HTTP cookies.
+
+-----
 
 ## Key Features
 
@@ -34,6 +38,8 @@ Contains pure business rules (data retrieval, catalog filtering, recommendation 
 #### Data Layer
 
 Manages data retrieval from the external API. It utilizes a reusable HTTP client (`pkg/httpclient`) to fetch resources and handles the mapping of raw DTOs into internal domain entities.
+
+-----
 
 ### 2. Concurrency & State Management
 
@@ -70,16 +76,21 @@ High-performance HTML delivery using Go's `html/template` engine.
 
 Handles external API failures gracefully with fallback strategies and strict data sanitization.
 
-## Prerequisites
+-----
+
+## Setup and Installation
+
+### Prerequisites
 
 * **Go:** Version 1.22 or higher.
 * **Node.js & NPM:** Required to run the external Cars API.
 
-## Setup and Installation
+> [!NOTE]
+> The system consists of two parts: the external Data API (Node.js) and the Viewer Application (Go).
+>
+> Both must be running for the application to function correctly.
 
-The system consists of two parts: the external Data API (Node.js) and the Viewer Application (Go).
-
-Both must be running for the application to function correctly.
+-----
 
 ### 1. Start the Cars API (Backend Service)
 
@@ -117,7 +128,9 @@ make run
 > 
 > So, the Viewer config is set to request data from this host.
 > 
-> If needed, you can change it in the config/local/local.json file.
+> If needed, you can change it in the `config/local/local.json` file.
+
+-----
 
 ### 2. Start the Viewer Application (Frontend)
 
@@ -137,6 +150,8 @@ go build -o viewer cmd/viewer/main.go
 http://localhost:8080
 ```
 
+-----
+
 ## Usage Guide
 
 1.  **Browse Catalog:** Navigate to the homepage to see a list of available vehicles fetched from the Cars API.
@@ -145,6 +160,8 @@ http://localhost:8080
     * Visit specific car models (e.g., view 3 different Audi models).
     * Return to the homepage or a different car page.
     * Observe the "Recommended for You" section, which will now prioritize Audi models and some other manufacturers based on your session history.
+
+-----
 
 ## Project Structure
 
