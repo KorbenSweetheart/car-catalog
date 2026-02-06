@@ -14,6 +14,26 @@ It features a privacy-first recommendation engine that tracks user session histo
 
 -----
 
+## Task learning objectives:
+- Working with and manipulating external data sources (APIs).
+- Understanding and working with JSON data format.
+- Developing user interfaces using HTML.
+- Implementing client-server interactions and handling events effectively.
+- Using the Go programming language for web development.
+- Adhering to best practices for web development.
+
+## Personal goals and learning objectives:
+- Learn how to use interfaces and dependency injection to decouple different layers of the code.
+- Implement all three independent layers according to Clean Architecture principles (Controller, Usecase, Repository).
+- Use DTOs (Data Transfer Objects) to separate external data from internal business logic.
+- Learn how to add and use an in-memory cache with Jenitor logic, which can be easily swapped with Redis in the future.
+- Map JSON data from an external API into strict Go domain structures to ensure type safety across the app.
+- Organize the code according to the [Standard Go Project Layout](https://github.com/golang-standards/project-layout)
+- Design and implement realistic recommendation logic using my product management background to define the business rules.
+- Implement various optimisation and memory leak fixes I learned from experts and videos.
+
+-----
+
 ## Key learnings and Results:
 - Architecting a scalable Go application using Clean Architecture principles to maintain a strict, logical separation between the transport layer, business logic, and data access.
 - Developing modular, testable codebases by leveraging Go Interfaces and Dependency Injection for high component maintainability.
